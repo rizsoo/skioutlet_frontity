@@ -20,6 +20,11 @@ import SectionGear from "./SectionGear"
 import BrandSection from "./SectionBrand"
 import SectionSize from "./SectionSize"
 
+// MEGCSINÁLNI:
+// méret kereső
+// deploy és security
+// IMG!!!
+
 const Shop = ({ state, actions }) => {
   const info = state.source.get(state.router.link)
 
@@ -61,6 +66,7 @@ const Shop = ({ state, actions }) => {
     const [pageNum, setPageNum] = useState(Number(cutingURL(location)));
     const [searchTerm, setSearchTerm] = useState(urldecode(queryLast))
     const [isLoaded, setIsLoaded] = useState(false)
+    const [newImgData, setNewImgData] = useState([])
     const [sorting, setSorting] = useState(orderNameOnly);
 
     const [isGenderOpen, setIsGenderOpen] = useState(false)
@@ -68,7 +74,24 @@ const Shop = ({ state, actions }) => {
     const [isToWearOpen, setIsToWearOpen] = useState(false)
     const [isBrandOpen, setIsBrandOpen] = useState(false)
     const [isSizeOpen, setIsSizeOpen] = useState(false)
-  
+
+// Get IMG data
+    function getIMGData() {
+      fetch("http://skioutlet.hu/wp-content/uploads/webarlista_imgdata.csv")
+        .then(res => res.url)
+        .then((response) => {
+            Papa.parse(response, {
+            encoding: "UTF-8",
+            download: true,
+            dynamicTyping: true,
+            header: true,
+            complete: function(results) {
+              let data = results.data;
+              setNewImgData(data)
+            }})
+          })
+        }
+  console.log(newImgData);
 // Get DATA
     function getData() {
         fetch("http://skioutlet.hu/wp-content/uploads/webarlista_t3.csv")
@@ -81,6 +104,7 @@ const Shop = ({ state, actions }) => {
             header: false,
             complete: function(results) {
               let header = "sku;title;brand;;cat1;cat2;price;saleprice;isonsale;stock;size;img"
+              console.log(newImgData);
                 let res = results.data.map(line => {
                   let imgData = String(line[0]).split("#").slice(0, 2).join("_");
                   let newLine = line.join(";") + ";" + imgData
@@ -100,6 +124,7 @@ const Shop = ({ state, actions }) => {
     
     useEffect(() => {
       getData()
+      getIMGData()
     }, [info.link])
 
 // Handle pagination click
