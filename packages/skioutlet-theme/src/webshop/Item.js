@@ -14,7 +14,6 @@ function currencyConverter(number) {
 
 const Item = ({ state, prod }) => {
   const info = state.source.get(state.router.link)
-
   let imgFolderName = prod.brand.toLowerCase();
 
   // Get image
@@ -29,9 +28,11 @@ function setSource() {
   }
 }
 
+
 useEffect(() => {
   setSource();
 }, [info])
+
 
   return (
     <ItemFrame>

@@ -6,7 +6,7 @@ let SingleProductDisplay = ( { theProduct } ) => {
   //data
   let prodTitle = theProduct.map(prod => prod.title).shift();
   let prodImg = theProduct.map(prod => prod.img).pop();
-  console.log(prodImg);
+  // console.log(prodImg);
   let prodBrand = theProduct.map(prod => prod.brand).pop();
   let prodBrandLow = theProduct.map(prod => prod.brand.toLowerCase()).pop();
   let prodPrice = theProduct.map(prod => prod.price).pop();
@@ -83,7 +83,6 @@ useEffect(() => {
     // const prevSlide = () => {
     //     setCurrent(current === 0 ? length - 1 : current - 1)
     // }
-  
 
   return (
     <ProductContent>
@@ -137,6 +136,13 @@ const ProductContent = styled.div`
   img {
     max-width: 350px;
     width: calc(100vw - 20px);
+    @media (max-width: 600px) {
+      max-width: 100%;
+    }
+  }
+  @media (max-width: 600px) {
+    flex-wrap: wrap;
+    flex-direction: column;
   }
 `
 const ProductDetailBox = styled.div`
@@ -159,6 +165,9 @@ const ProductDetailBox = styled.div`
       background-color: white;
       padding: 15px 20px;
       border-radius: 7px;
+    }
+    @media (max-width: 600px) {
+      width: 100%;
     }
 `
 const SinglePriceTag = styled.div`
