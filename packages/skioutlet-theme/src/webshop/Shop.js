@@ -111,18 +111,9 @@ const Shop = ({ state, actions }) => {
               return h
             },
             complete: function(results) {
-              console.log(results.data.size);
-              // let header = "sku;title;brand;;cat1;cat2;price;saleprice;isonsale;stock;size;img"
-              // console.log(newImgData);
-              //   let res = results.data.map(line => {
-              //     let imgData = String(line[0]).split("#").slice(0, 2).join("_");
-              //     let newLine = line.join(";") + ";" + imgData;
-              //     let endpoint = header.split(";") + "\n" + newLine.split(";"); 
-              //     let result = Papa.parse(endpoint, {header: true});
-              //     return result.data[0];
-              //   })
-              //   console.log(res);
-                setProductData(filteredSearchcode(results.data.filter(prod => prod.stock > 0), 'img'))
+              //console.log(results.data.size);
+
+              setProductData(filteredSearchcode(results.data.filter(prod => prod.stock > 0), 'img'))
                 setFullProductList(filteredSearchcode(results.data.filter(prod => prod.stock > 0), 'img'))
                 // if(queryToFilter.length > 0) setFilterWordCollect(queryToFilter.split(" "))
                 setIsLoaded(true)
@@ -131,11 +122,10 @@ const Shop = ({ state, actions }) => {
         })
         }   
 
-    console.log(productData);
+    //console.log(productData);
 
     useEffect(() => {
       getData()
-      // getIMGData()
     }, [info.link])
 
 // Handle pagination click
