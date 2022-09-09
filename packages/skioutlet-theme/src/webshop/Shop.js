@@ -96,7 +96,7 @@ const Shop = ({ state, actions }) => {
 // Get DATA
 
     function getData() {
-        fetch("http://skioutlet.hu/wp-content/uploads/webarlista_rita8.csv")
+        fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_rita8.csv")
         .then(res => res.url)
         .then((response) => {
             Papa.parse(response, {
