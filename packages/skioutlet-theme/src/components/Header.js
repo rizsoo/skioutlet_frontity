@@ -1,12 +1,15 @@
 import React from 'react'
 import { connect, styled } from "frontity"
 import Link from "@frontity/components/link"
+import { useState } from 'react'
+import { isMobile } from 'react-device-detect';
 
 const Header = () => {
-
-function handleRefresch() {
-    window.location.reload(false);
-      }
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  console.log(isMenuOpen);
+  function handleRefresch() {
+      window.location.reload(false);
+        }
 
   return (
     <div>
@@ -20,17 +23,18 @@ function handleRefresch() {
         </Banner>          
         <Navigator>
             <Navbar>
-              <Menu>
+            {isMobile ? <CloseMenu onClick={() => setIsMenuOpen(!isMenuOpen)}><ion-icon name="menu-outline"></ion-icon></CloseMenu> : null}
+              {isMobile && !isMenuOpen ? null : <Menu onClick={() => setIsMenuOpen(false)}>
                 <Link link="/">Főoldal</Link>
                 <Link link="/shop" onClick={handleRefresch}>Termékek</Link>
                 <Link link="/rolunk">Rólunk</Link>
                 <Link link="/kapcsolat">Kapcsolat</Link>
-              </Menu>
-              <Socials>
+              </Menu>}
+              {isMobile && !isMenuOpen ? null : <Socials onClick={() => setIsMenuOpen(false)}>
                 <Link target="_blank" link="https://www.facebook.com/skioutletstore"><ion-icon name="logo-facebook"></ion-icon></Link>
                 <Link target="_blank" link="https://www.instagram.com/skioutletbudapest"><ion-icon name="logo-instagram"></ion-icon></Link>
                 <Link target="_blank" link="https://www.youtube.com/user/skioutlet"><ion-icon name="logo-youtube"></ion-icon></Link>
-              </Socials>
+              </Socials>}
             </Navbar>
         </Navigator>
     </div>
@@ -71,16 +75,23 @@ const Navbar = styled.div`
   justify-content: space-between;
 
   margin: 0 auto;
-`;
-const Socials = styled.div`
-  display: flex;
-  gap: 10px;
-  padding: 0 10px;
+  @media (max-width: 600px) {
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: end;
+    padding: 10px;
+  }
   ion-icon {
     color: white;
     font-size: 30px;
     cursor: pointer;
   }
+  
+`;
+const Socials = styled.div`
+  display: flex;
+  gap: 10px;
+  padding: 0 10px;
 `;
 const Menu = styled.nav`
   background-color: #ed2123;
@@ -99,6 +110,23 @@ const Menu = styled.nav`
   & : hover {
     background-color: black;
   }
+  @media (max-width: 600px) {
+    flex-direction: column;
+    text-align: right;
+    & > a {
+      font-size: 1.8em;
+      margin: 0;
+      margin-bottom: 5px;
+    }
+  }
 `;
+const CloseMenu = styled.div`
+  @media (max-width: 600px) {
+    ion-icon {
+      padding: 5px;
+      font-size: 50px;
+    }
+  }
+`
 
 export default connect(Header)

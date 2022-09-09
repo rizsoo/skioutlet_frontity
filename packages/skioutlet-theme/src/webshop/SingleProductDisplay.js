@@ -136,6 +136,13 @@ const ProductContent = styled.div`
   img {
     max-width: 350px;
     width: calc(100vw - 20px);
+    @media (max-width: 600px) {
+      max-width: 100%;
+    }
+  }
+  @media (max-width: 600px) {
+    flex-wrap: wrap;
+    flex-direction: column;
   }
 `
 const ProductDetailBox = styled.div`
@@ -158,6 +165,9 @@ const ProductDetailBox = styled.div`
       background-color: white;
       padding: 15px 20px;
       border-radius: 7px;
+    }
+    @media (max-width: 600px) {
+      width: 100%;
     }
 `
 const SinglePriceTag = styled.div`

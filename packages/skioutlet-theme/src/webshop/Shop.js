@@ -250,13 +250,13 @@ const Shop = ({ state, actions }) => {
           setIsEquipementOpen(false);
           // setIsSizeOpen(false);
         }}><img src={atomicLogo} alt="Márka" /></Button>
-        <Button onClick={() => { 
+        {/* <Button onClick={() => { 
           setIsSizeOpen(!isSizeOpen);
           setIsBrandOpen(false);
           setIsToWearOpen(false); 
           setIsGenderOpen(false); 
           setIsEquipementOpen(false);
-        }}><img src={sizeLogo} alt="Méret" /></Button>
+        }}><img src={sizeLogo} alt="Méret" /></Button> */}
       </FilterBar>
       {/* Filter Gender */}
       {isGenderOpen?<WearMenu>
