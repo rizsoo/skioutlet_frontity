@@ -25,6 +25,7 @@ import SectionSize from "./SectionSize"
 // deploy és security
 // IMG!!!
 
+
 const Shop = ({ state, actions }) => {
   const info = state.source.get(state.router.link)
 
@@ -76,8 +77,26 @@ const Shop = ({ state, actions }) => {
     const [isSizeOpen, setIsSizeOpen] = useState(false)
 
 // Get IMG data
-    function getIMGData() {
-      fetch("http://skioutlet.hu/wp-content/uploads/webarlista_imgdata.csv")
+  //   function getIMGData() {
+  //     fetch("http://skioutlet.hu/wp-content/uploads/webarlista_imgdata.csv")
+  //       .then(res => res.url)
+  //       .then((response) => {
+  //           Papa.parse(response, {
+  //           encoding: "UTF-8",
+  //           download: true,
+  //           dynamicTyping: true,
+  //           header: true,
+  //           complete: function(results) {
+  //             let data = results.data;
+  //             setNewImgData(data)
+  //           }})
+  //         })
+  //       }
+  // console.log(newImgData);
+// Get DATA
+
+    function getData() {
+        fetch("http://skioutlet.hu/wp-content/uploads/webarlista_rita8.csv")
         .then(res => res.url)
         .then((response) => {
             Papa.parse(response, {
@@ -85,46 +104,38 @@ const Shop = ({ state, actions }) => {
             download: true,
             dynamicTyping: true,
             header: true,
+            transformHeader: function(h, i) {
+              let header = [ "sku", "img", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size" ]
+              h = header[i]
+              console.log(h);
+              return h
+            },
             complete: function(results) {
-              let data = results.data;
-              setNewImgData(data)
-            }})
-          })
-        }
-  console.log(newImgData);
-// Get DATA
-    function getData() {
-        fetch("http://skioutlet.hu/wp-content/uploads/webarlista_t3.csv")
-        .then(res => res.url)
-        .then((response) => {
-            Papa.parse(response, {
-            encoding: "UTF-8",
-            download: true,
-            dynamicTyping: true,
-            header: false,
-            complete: function(results) {
-              let header = "sku;title;brand;;cat1;cat2;price;saleprice;isonsale;stock;size;img"
-              console.log(newImgData);
-                let res = results.data.map(line => {
-                  let imgData = String(line[0]).split("#").slice(0, 2).join("_");
-                  let newLine = line.join(";") + ";" + imgData
-                  let endpoint = header.split(";") + "\n" + newLine.split(";"); 
-                  let result = Papa.parse(endpoint, {header: true})
-                  return result.data[0]
-                })
-                console.log(res);
-                setProductData(filteredSearchcode(res.filter(prod => prod.stock > 0), 'img'))
-                setFullProductList(filteredSearchcode(res.filter(prod => prod.stock > 0), 'img'))
+              console.log(results.data.size);
+              // let header = "sku;title;brand;;cat1;cat2;price;saleprice;isonsale;stock;size;img"
+              // console.log(newImgData);
+              //   let res = results.data.map(line => {
+              //     let imgData = String(line[0]).split("#").slice(0, 2).join("_");
+              //     let newLine = line.join(";") + ";" + imgData;
+              //     let endpoint = header.split(";") + "\n" + newLine.split(";"); 
+              //     let result = Papa.parse(endpoint, {header: true});
+              //     return result.data[0];
+              //   })
+              //   console.log(res);
+                setProductData(filteredSearchcode(results.data.filter(prod => prod.stock > 0), 'img'))
+                setFullProductList(filteredSearchcode(results.data.filter(prod => prod.stock > 0), 'img'))
                 // if(queryToFilter.length > 0) setFilterWordCollect(queryToFilter.split(" "))
                 setIsLoaded(true)
             }
             }) 
         })
         }   
-    
+
+    console.log(productData);
+
     useEffect(() => {
       getData()
-      getIMGData()
+      // getIMGData()
     }, [info.link])
 
 // Handle pagination click
@@ -168,7 +179,7 @@ const Shop = ({ state, actions }) => {
   const [brand, setBrand] = useState("brandList");
   const genders = ["férfi", "női", "gyerek", "unisex"]
   const [gear, setGear] = useState("");
-  const [size, setSize] = useState("")
+  const [size, setSize] = useState("");
 
 // Filtermenu Cat
   let filterDataCathegory = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat")]
@@ -180,7 +191,7 @@ const Shop = ({ state, actions }) => {
   });
 
   // Get available sizes
-  let sizeList = filteredSearchcode(filteredProducts, "size").map(data => data.size).sort((a, b) => a.localeCompare(b));
+  // let sizeList = filteredSearchcode(filteredProducts, "size").map(data => data.size).sort((a, b) => a.localeCompare(b));
 
   // Handle Clearout Search
   function clearOutSearch() {
@@ -280,14 +291,14 @@ const Shop = ({ state, actions }) => {
           )}
       </WearMenu>:null}
       {/* Filter SIZE */}
-      {isSizeOpen?<SizeList>
+      {/* {isSizeOpen?<SizeList>
         {sizeList.map((tag, index) => {
           return (
             <SectionSize key={index} sorting={sorting} tag={tag} index={index} sizeList={sizeList} size={size} setSize={setSize} setPageNum={setPageNum} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           )
           })
         }
-      </SizeList>:null}
+      </SizeList>:null} */}
       <FilterSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
       <Pagination sorting={sorting} searchTerm={searchTerm} handlePageClick={handlePageClick} pageNum={pageNum} totalPageNum={totalPageNum} />
       <Sorting action="/shop/search/" onInput={() => { 

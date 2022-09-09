@@ -27,9 +27,9 @@ function handleRefresch() {
                 <Link link="/kapcsolat">Kapcsolat</Link>
               </Menu>
               <Socials>
-                <ion-icon name="logo-facebook"></ion-icon>
-                <ion-icon name="logo-instagram"></ion-icon>
-                <ion-icon name="logo-youtube"></ion-icon>
+                <Link target="_blank" link="https://www.facebook.com/skioutletstore"><ion-icon name="logo-facebook"></ion-icon></Link>
+                <Link target="_blank" link="https://www.instagram.com/skioutletbudapest"><ion-icon name="logo-instagram"></ion-icon></Link>
+                <Link target="_blank" link="https://www.youtube.com/user/skioutlet"><ion-icon name="logo-youtube"></ion-icon></Link>
               </Socials>
             </Navbar>
         </Navigator>

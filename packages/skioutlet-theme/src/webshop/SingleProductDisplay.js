@@ -6,7 +6,7 @@ let SingleProductDisplay = ( { theProduct } ) => {
   //data
   let prodTitle = theProduct.map(prod => prod.title).shift();
   let prodImg = theProduct.map(prod => prod.img).pop();
-  console.log(prodImg);
+  // console.log(prodImg);
   let prodBrand = theProduct.map(prod => prod.brand).pop();
   let prodBrandLow = theProduct.map(prod => prod.brand.toLowerCase()).pop();
   let prodPrice = theProduct.map(prod => prod.price).pop();
@@ -83,7 +83,6 @@ useEffect(() => {
     // const prevSlide = () => {
     //     setCurrent(current === 0 ? length - 1 : current - 1)
     // }
-  
 
   return (
     <ProductContent>
