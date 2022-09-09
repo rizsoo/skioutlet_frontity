@@ -21,7 +21,7 @@ const Item = ({ state, prod }) => {
 const [imgData, setImgData] = useState([])
 function setSource() {
   try{
-      const src = `https://skioutlet.hu/product_images/${imgFolderName}/${prod.img}.jpg`
+      const src = `https://img.skioutlet.hu/product_images/${imgFolderName}/${prod.img}.jpg`
       setImgData({ src });
   }
   catch(err){

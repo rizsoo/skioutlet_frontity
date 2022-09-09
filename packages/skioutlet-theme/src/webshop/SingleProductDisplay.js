@@ -45,7 +45,7 @@ function getGender(val) {
 const [imgData, setImgData] = useState([])
 function setSource() {
   try{
-      const src = `https://skioutlet.hu/product_images/${prodBrandLow}/${prodImg}.jpg`
+      const src = `https://img.skioutlet.hu/product_images/${prodBrandLow}/${prodImg}.jpg`
       setImgData({ src });
   }
   catch(err){
