@@ -16,7 +16,7 @@ function Product({ state }) {
   const url = res.id;
 
  function getData() {
-    fetch("http://skioutlet.hu/wp-content/uploads/webarlista_rita8.csv")
+    fetch("http://skioutlet.hu/webarlista_rita8.csv")
       .then(res => res.url)
       .then((response) => {
         Papa.parse(response, {

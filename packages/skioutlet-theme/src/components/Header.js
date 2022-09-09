@@ -14,7 +14,7 @@ const Header = () => {
   return (
     <div>
         <Banner>
-            <Link link="/"><img src="https://skioutlet.hu/wp-content/uploads/2022/06/skioutlet_logo_2020.png" /></Link>
+            <Link link="/"><img src="https://wp.skioutlet.hu/wp-content/uploads/2022/06/skioutlet_logo_2020.png" /></Link>
             <Link link="https://g.page/skioutlet?share" target="_blank">
               <div>
                 <ion-icon name="location-outline" /><h2>1027 Budapest, Margit körút 46.</h2>
