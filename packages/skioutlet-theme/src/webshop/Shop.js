@@ -331,7 +331,6 @@ const FilterBar = styled.div`
     align-items: center;
     justify-content: center;
     :hover {
-      
       box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
       background-color: white;
       transition: ease 0.1s;  

@@ -84,6 +84,11 @@ const NewText = styled.div`
     font-size: 25px;
     margin-bottom: 5px;
   }
+  @media (max-width: 600px) {
+    h3 {
+      font-size: 1.8em;
+    }
+  }
   p {
     color: #ed2123;
     margin: 0 !important;

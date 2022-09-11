@@ -124,9 +124,10 @@ const Items = styled.div`
    
     h3 {
       margin-bottom: 5px;
+      font-size: 1.7em;
     }
     p {
-      font-size: 15px;
+      font-size: 1.3em;
     }
     i {
       font-size: 10px;
