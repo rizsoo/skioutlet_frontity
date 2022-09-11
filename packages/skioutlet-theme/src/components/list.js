@@ -102,16 +102,27 @@ const Title = styled.h2`
   font-weight: 100;
   padding: 6px;
   margin: 0 0 10px 0 !important;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+
+  @media (max-width: 600px) {
+    color: white;
+    font-size: 1.7em;
+    background-color: transparent;
+    
+    font-weight: 700;
+  }
 `
 const Items = styled.div`
     max-width: 880px;
     margin: 6px 0;
 
     display: flex;
-    gap: 20px;
+    gap: 10px;
     flex-wrap: wrap;
     @media (max-width: 600px) {
       flex-direction: column;
+      gap: 20px;
     }
   & > a {
     display: block;

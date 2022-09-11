@@ -2,6 +2,7 @@ import React from "react"
 import { connect, Global, css, styled, Head } from "frontity"
 import Link from "@frontity/components/link"
 import Switch from "@frontity/components/switch"
+import { useState, useEffect } from "react"
 
 import List from "./list"
 import Post from "./post"
@@ -14,6 +15,10 @@ import Header from "./Header"
 
 const Root = ({ state }) => {
   const data = state.source.get(state.router.link)
+  const [isHomepage, setIsHomepage] = useState(state.router.link === "/" ? true : false)
+  useEffect(() => {
+    setIsHomepage(state.router.link === "/" ? true : false)
+  }, [state.router.link])
 
   return (
     <>
@@ -47,7 +52,7 @@ const Root = ({ state }) => {
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
       </Head>
       <Header />
-      <Main>
+      <Main isHomepage={isHomepage}>
         <Switch>
           <Loading when={data.isFetching} />
           <Error when={data.isError} />
@@ -66,7 +71,7 @@ const Root = ({ state }) => {
 
 const Main = styled.main`
   max-width: 900px;
-  padding: 0 20px 20px 20px;
+  padding: 0 10px 10px 10px;
   margin: auto;
 
   img {
@@ -83,6 +88,10 @@ const Main = styled.main`
     color: #828282;
     font-size: 0.8em;
     margin-bottom: 1em;
+  }
+  @media (max-width: 600px) {
+    padding: 0 20px 20px 20px;
+    background-color: ${(props) => (props.isHomepage ? "#ed2123" : "white")};
   }
 `;
 

@@ -47,8 +47,11 @@ const Actions = styled.div`
     flex-wrap: wrap;
     position: relative;
     margin-bottom: 10px;
-  & > a {
     
+  & > a {
+    @media (max-width: 600px) {
+      height: 100% !important;
+    }
     font-size: 1.2em;
     text-decoration: none;
 
@@ -56,6 +59,7 @@ const Actions = styled.div`
     overflow: hidden;
     position: relative;
     background-color: transparent !important;
+
     img {
       object-fit: contain;
       object-position: -50%;
@@ -65,6 +69,9 @@ const Actions = styled.div`
         transform: translateY(-50%);
         left: 0;
         z-index: 0;
+      }
+      @media (max-width: 600px) {
+        display: none;
       }
     }
   }
@@ -85,8 +92,13 @@ const NewText = styled.div`
     margin-bottom: 5px;
   }
   @media (max-width: 600px) {
+    padding: 0 0 10px 0;
     h3 {
       font-size: 1.8em;
+      padding: 15px;
+    }
+    p{
+      padding: 0 7.5px;
     }
   }
   p {
@@ -107,6 +119,9 @@ const Arrowbox = styled.div`
   z-index: 2;
   display: flex;
   gap: 1px;
+  @media (max-width: 600px) {
+    display: none;
+  }
 `
 const Arrow = styled.div`
   width: 50px;

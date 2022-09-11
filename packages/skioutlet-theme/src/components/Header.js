@@ -23,7 +23,12 @@ const Header = () => {
         </Banner>          
         <Navigator>
             <Navbar>
-            {isMobile ? <CloseMenu onClick={() => setIsMenuOpen(!isMenuOpen)}><ion-icon name="menu-outline"></ion-icon></CloseMenu> : null}
+            {isMobile ? 
+                <MobileHeader>
+                  <Link link="/"><MobileBanner>skioutlet.hu</MobileBanner></Link>
+                  <CloseMenu onClick={() => setIsMenuOpen(!isMenuOpen)}><ion-icon name="menu-outline"></ion-icon></CloseMenu>
+                </MobileHeader>
+              : null}
               {isMobile && !isMenuOpen ? null : <Menu onClick={() => setIsMenuOpen(false)}>
                 <Link link="/">Főoldal</Link>
                 <Link link="/shop" onClick={handleRefresch}>Termékek</Link>
@@ -40,7 +45,15 @@ const Header = () => {
     </div>
   )
 }
-
+const MobileBanner = styled.h3`
+  font-size: 3em !important;
+`
+const MobileHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: calc(100vw - 30px);
+`
 const Banner = styled.div`
   @media (max-width: 600px) {
     display: none;
@@ -124,7 +137,7 @@ const CloseMenu = styled.div`
   @media (max-width: 600px) {
     ion-icon {
       padding: 5px;
-      font-size: 50px;
+      font-size: 3.5em;
     }
   }
 `
