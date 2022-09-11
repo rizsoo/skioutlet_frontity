@@ -66,7 +66,7 @@ const Root = ({ state }) => {
 
 const Main = styled.main`
   max-width: 900px;
-  padding: 0 15px 15px 15px;
+  padding: 0 20px 20px 20px;
   margin: auto;
 
   img {

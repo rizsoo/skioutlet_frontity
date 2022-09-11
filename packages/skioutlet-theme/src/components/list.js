@@ -108,7 +108,7 @@ const Items = styled.div`
     margin: 6px 0;
 
     display: flex;
-    gap: 10px;
+    gap: 20px;
     flex-wrap: wrap;
     @media (max-width: 600px) {
       flex-direction: column;
@@ -121,13 +121,13 @@ const Items = styled.div`
     box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     color: black;
     width: calc((100% - 20px) / 3);
-   
+    background-color: white;
     h3 {
       margin-bottom: 5px;
       font-size: 1.7em;
     }
     p {
-      font-size: 1.3em;
+      font-size: 1em;
     }
     i {
       font-size: 10px;
@@ -140,7 +140,6 @@ const Items = styled.div`
 `
 const PostText = styled.div`
   padding: 5px 10px 10px 10px;
-  
 `
 
 export default connect(List)
