@@ -8,8 +8,9 @@ import Slideshow from './slideshow'
 
 const List = ({ state, libraries }) => {
   const data = state.source.get(state.router.link)
+  
   const Html2React = libraries.html2react.Component;
-
+console.log(state);
   return (
     <>
     <Slideshow data={data} />
@@ -27,9 +28,9 @@ const List = ({ state, libraries }) => {
       )
     })}
     </Actions> */}
-    <Title>Versenyek</Title>
-    <Items>
-      {data.items.filter(el => state.source[el.type][el.id].categories[0] === 138).slice(0, 3).map((item) => {
+    <Title>Hírek</Title>
+    <NewsItem>
+      {data.items.filter(el => state.source[el.type][el.id].categories[0] === 952).slice(0, 3).map((item) => {
         const post = state.source[item.type][item.id]
         const formattedDate = dayjs(post.date).format("YYYY.MM.DD.")
         return (
@@ -43,7 +44,7 @@ const List = ({ state, libraries }) => {
           </Link>
         )
       })}
-    </Items>
+    </NewsItem>
     </>
   )
 }
@@ -102,8 +103,8 @@ const Title = styled.h2`
   font-weight: 100;
   padding: 6px;
   margin: 0 0 10px 0 !important;
-  text-transform: uppercase;
-  letter-spacing: 2px;
+  font-weight: 300;
+  letter-spacing: 1.1px;
 
   @media (max-width: 600px) {
     color: white;
@@ -113,7 +114,7 @@ const Title = styled.h2`
     font-weight: 700;
   }
 `
-const Items = styled.div`
+const NewsItem = styled.div`
     max-width: 880px;
     margin: 6px 0;
 
@@ -135,7 +136,7 @@ const Items = styled.div`
     background-color: white;
     h3 {
       margin-bottom: 5px;
-      font-size: 1.7em;
+      font-size: 1.3em;
     }
     p {
       font-size: 1em;
@@ -146,6 +147,9 @@ const Items = styled.div`
     }
     @media (max-width: 600px) {
       width: 100%;
+      h3 {
+        font-size: 1.7em;
+      }
     }
   }
 `
