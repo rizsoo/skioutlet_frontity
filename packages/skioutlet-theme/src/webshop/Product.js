@@ -25,7 +25,7 @@ function Product({ state }) {
           dynamicTyping: true,
           header: true,
           transformHeader: function(h, i) {
-            let header = [ "sku", "img", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size" ]
+            let header = [ "sku", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size", "img" ]
             h = header[i]
             console.log(h);
             return h
