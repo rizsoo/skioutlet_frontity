@@ -111,8 +111,6 @@ const Shop = ({ state, actions }) => {
               return h
             },
             complete: function(results) {
-              //console.log(results.data.size);
-
               setProductData(filteredSearchcode(results.data.filter(prod => prod.stock > 0), 'img'))
                 setFullProductList(filteredSearchcode(results.data.filter(prod => prod.stock > 0), 'img'))
                 // if(queryToFilter.length > 0) setFilterWordCollect(queryToFilter.split(" "))
