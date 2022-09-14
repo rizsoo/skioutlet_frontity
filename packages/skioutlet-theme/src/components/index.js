@@ -15,10 +15,22 @@ import Header from "./Header"
 
 const Root = ({ state }) => {
   const data = state.source.get(state.router.link)
+  
   const [isHomepage, setIsHomepage] = useState(state.router.link === "/" ? true : false)
+  const [metaTitle, setMetaTitle] = useState("");
+
+  function isMetaGood() {
+    state.menu.map(el => {
+      el[1] === url ? setMetaTitle(`- ${el[0]}`) : null
+    })
+  }
+
   useEffect(() => {
     setIsHomepage(state.router.link === "/" ? true : false)
+    isMetaGood()
   }, [state.router.link])
+
+  const url = data.link;
 
   return (
     <>
@@ -45,7 +57,7 @@ const Root = ({ state }) => {
         `}
       />
       <Head>
-        <title>Skioutlet</title>
+        <title>Skioutlet {metaTitle}</title>
         <link rel="canonical" href="http://mysite.com/example" />
         <meta name="Skioutlet sí szaküzlet" content="Magyarország első skioutlet áruháza. Személyre szabott kiszolgálás! Állandó akciók, garantált minőség. Síkabát, sínadrág, síléc, sícipő, bukósisak" />
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>

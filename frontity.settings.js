@@ -23,7 +23,13 @@ const settings = {
               archive: "/shop"
             }
           ]
-        }
+        },
+        "menu": [
+          ["Főoldal", "/"],
+          ["Termékek", "/shop/"],
+          ["Rólunk", "/rolunk/"],
+          ["Kapcsolat", "/kapcsolat/"],
+        ]
       }
     },
     "@frontity/tiny-router",

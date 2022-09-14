@@ -6,7 +6,6 @@ import { isMobile } from 'react-device-detect';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  console.log(isMenuOpen);
   function handleRefresch() {
       window.location.reload(false);
         }

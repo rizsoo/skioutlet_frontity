@@ -10,7 +10,7 @@ const List = ({ state, libraries }) => {
   const data = state.source.get(state.router.link)
   
   const Html2React = libraries.html2react.Component;
-console.log(state);
+
   return (
     <>
     <Slideshow data={data} />
@@ -139,7 +139,7 @@ const NewsItem = styled.div`
       font-size: 1.3em;
     }
     p {
-      font-size: 1em;
+      font-size: 0.9em;
     }
     i {
       font-size: 10px;
@@ -149,6 +149,9 @@ const NewsItem = styled.div`
       width: 100%;
       h3 {
         font-size: 1.7em;
+      }
+      p {
+        font-size: 1em;
       }
     }
   }

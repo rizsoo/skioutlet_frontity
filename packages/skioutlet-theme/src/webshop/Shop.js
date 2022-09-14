@@ -2,7 +2,8 @@ import React from "react"
 import { useEffect, useState } from 'react'
 import { connect, styled } from "frontity"
 
-import atomicLogo from '../img/atomic.png'
+import felszerelesIcon from '../img/equipement.png'
+import atomicLogo from '../img/atomicIcon.png'
 import sizeLogo from '../img/size.png'
 
 import Link from "@frontity/components/link"
@@ -19,12 +20,6 @@ import GenderSection from "./SectionGender"
 import SectionGear from "./SectionGear"
 import BrandSection from "./SectionBrand"
 import SectionSize from "./SectionSize"
-
-// MEGCSINÁLNI:
-// méret kereső
-// deploy és security
-// IMG!!!
-
 
 const Shop = ({ state, actions }) => {
   const info = state.source.get(state.router.link)
@@ -61,13 +56,16 @@ const Shop = ({ state, actions }) => {
     // console.log(orderNameOnly);
 
 
-    //STATES
+//STATES
+    //GetData states
+    const [imgData, setImgData] = useState([])
+    const [webarlista, setWebarlista] = useState([])
     const [productData, setProductData] = useState([])
+
     const [fullProductList, setFullProductList] = useState([])
     const [pageNum, setPageNum] = useState(Number(cutingURL(location)));
     const [searchTerm, setSearchTerm] = useState(urldecode(queryLast))
     const [isLoaded, setIsLoaded] = useState(false)
-    const [newImgData, setNewImgData] = useState([])
     const [sorting, setSorting] = useState(orderNameOnly);
 
     const [isGenderOpen, setIsGenderOpen] = useState(false)
@@ -76,63 +74,86 @@ const Shop = ({ state, actions }) => {
     const [isBrandOpen, setIsBrandOpen] = useState(false)
     const [isSizeOpen, setIsSizeOpen] = useState(false)
 
-// Get IMG data
-  //   function getIMGData() {
-  //     fetch("http://skioutlet.hu/wp-content/uploads/webarlista_imgdata.csv")
-  //       .then(res => res.url)
-  //       .then((response) => {
-  //           Papa.parse(response, {
-  //           encoding: "UTF-8",
-  //           download: true,
-  //           dynamicTyping: true,
-  //           header: true,
-  //           complete: function(results) {
-  //             let data = results.data;
-  //             setNewImgData(data)
-  //           }})
-  //         })
-  //       }
-  // console.log(newImgData);
+//Get IMG data
+function getIMGData() {
+  fetch("http://wp.skioutlet.hu/wp-content/uploads/2022/09/imgdata_rita1.csv")
+    .then(res => res.url)
+    .then((response) => {
+      Papa.parse(response, {
+        encoding: "UTF-8",
+        download: true,
+        dynamicTyping: true,
+        header: true,
+      transformHeader: function(h, i) {
+        let header = [ "sku", "img", "title", "stock", "saleprice", "price", "size" ]
+        h = header[i]
+        // console.log(h);
+        return h
+      },
+      complete: function(results) {
+        let data = results.data;
+        setImgData(data)
+      }})
+    })
+}
+ 
+// console.log(imgData);
+  
 // Get DATA
+function getData() {
+    fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_rita8.csv")
+      .then(res => res.url)
+      .then((response) => {
+        Papa.parse(response, {
+          encoding: "UTF-8",
+          download: true,
+          dynamicTyping: true,
+          header: true,
+        transformHeader: function(h, i) {
+          let header = [ "sku", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size", "img" ]
+          h = header[i]
+          // console.log(h);
+          return h
+        },
+        complete: function(results) {
+          let data = results.data.filter(prod => prod.stock > 0);
+          setWebarlista(data);
 
-    function getData() {
-        fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_rita8.csv")
-        .then(res => res.url)
-        .then((response) => {
-            Papa.parse(response, {
-            encoding: "UTF-8",
-            download: true,
-            dynamicTyping: true,
-            header: true,
-            transformHeader: function(h, i) {
-              let header = [ "sku", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size", "img" ]
-              h = header[i]
-              console.log(h);
-              return h
-            },
-            complete: function(results) {
-              setProductData(filteredSearchcode(results.data.filter(prod => prod.stock > 0), 'img'))
-                setFullProductList(filteredSearchcode(results.data.filter(prod => prod.stock > 0), 'img'))
-                // if(queryToFilter.length > 0) setFilterWordCollect(queryToFilter.split(" "))
-                setIsLoaded(true)
-            }
-            }) 
-        })
-        }   
+          let filterResult = results.data.filter(prod => prod.stock > 0);
+          let filterByColor = filteredSearchcode(filterResult, 'img');
+          setProductData(filterByColor)
+          setFullProductList(filterByColor)
+          // if(queryToFilter.length > 0) setFilterWordCollect(queryToFilter.split(" "))
+          setIsLoaded(true)
+        }
+        }) 
+      })
+}   
+//console.log(productData);
 
-    //console.log(productData);
+// USEeFFECT
+useEffect(() => {
+  getIMGData()
+  getData()
+}, [info.link])
 
-    useEffect(() => {
-      getData()
-    }, [info.link])
+// DATA Összefésülés
+// const mergedData = webarlista.map(prod => {
+//   let res = imgData.map(elem => elem.sku === prod.sku ? elem.img : "") 
+//   return res
+//  } 
+// ) 
+  
+// console.log(mergedData);
 
 // Handle pagination click
-    function handlePageClick(data) {
-      setPageNum(cutingURL(location));
-      let getPaginationCount = Number(data.nativeEvent.originalTarget.textContent)
-      setPageNum(getPaginationCount);
-    }
-    let nextNum = pageNum * 15;
+  function handlePageClick(data) {
+    setPageNum(cutingURL(location));
+    let getPaginationCount = Number(data.nativeEvent.originalTarget.textContent)
+    setPageNum(getPaginationCount);
+  }
+  
+  let nextNum = pageNum * 15;
 
 
 // Filtering by cat/brand/sex
@@ -198,7 +219,7 @@ const Shop = ({ state, actions }) => {
 // TOTAL PAGE NUMBER  
   let totalPageNum = Math.ceil(filteredProducts.length / 15);
 
-  console.log(searchTerm);
+  // console.log(searchTerm);
 
   return (
     <ShopContent>
@@ -221,7 +242,7 @@ const Shop = ({ state, actions }) => {
           setIsBrandOpen(false);
           // setIsSizeOpen(false);
           setFilterDataCathegory(filterCat1ByCat2("Felszerelés")) 
-        }}><ion-icon name="american-football-outline"></ion-icon></Button>
+        }}><img src={felszerelesIcon} alt="Felszerelés" /></Button>
         {/* CLOTHING */}
         <Button onClick={() => { 
           setIsToWearOpen(!isToWearOpen); 
@@ -230,7 +251,7 @@ const Shop = ({ state, actions }) => {
           setIsEquipementOpen(false) 
           // setIsSizeOpen(false);
           setFilterDataCathegory(filterCat1ByCat2("Ruházat")) 
-        }}><ion-icon name="shirt-outline"><img></img></ion-icon></Button>
+        }}><ion-icon name="shirt-outline" alt="Ruházat"></ion-icon></Button>
         <Button onClick={() => { 
           setIsBrandOpen(!isBrandOpen)
           setIsToWearOpen(false); 
@@ -293,9 +314,9 @@ const Shop = ({ state, actions }) => {
         setSorting(event.target.value) 
         actions.router.set(searchLink.includes("?") ? `${searchLink}&orderby=${event.target.value}` : `${searchLink}search/?orderby=${event.target.value}`)
         }}>
-        <option name="orderby" value="name" selected={orderNameOnly === "name"}>Név szerint</option>
-        <option name="orderby" value="priceLow" selected={orderNameOnly === "priceLow"}>Legdrágább</option>
-        <option name="orderby" value="priceHigh" selected={orderNameOnly === "priceHigh"}>Legolcsóbb</option>
+        <option name="orderby" value="name" defaultValue={orderNameOnly === "name"}>Név szerint</option>
+        <option name="orderby" value="priceLow" defaultValue={orderNameOnly === "priceLow"}>Legdrágább</option>
+        <option name="orderby" value="priceHigh" defaultValue={orderNameOnly === "priceHigh"}>Legolcsóbb</option>
       </Sorting>
       {isLoaded ? 
         <ProductsMosaik sorting={sorting} filteredProducts={filteredProducts} nextNum={nextNum}/> : <Loading/> }
@@ -340,7 +361,7 @@ const DelButton = styled.s`
 `
 const Button = styled.s`
     img {
-      height: 20px;
+      height: 22px;
     }
     position: realtive;    
 `

@@ -12,10 +12,14 @@ const spin = keyframes`
 
 const Spinner = styled.div`
   border: 12px solid #eee;
-  border-top: 12px solid steelblue;
+  border-top: 12px solid #ed2123;
   border-radius: 50%;
   width: 80px;
   height: 80px;
   animation: ${spin} 2s linear infinite;
   margin 0 auto;
-`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(50%,-50%);
+  `

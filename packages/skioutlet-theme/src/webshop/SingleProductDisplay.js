@@ -1,6 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { connect, styled } from "frontity"
+import { connect, styled, Head } from "frontity"
 
 let SingleProductDisplay = ( { theProduct } ) => {
   //data
@@ -86,6 +86,9 @@ useEffect(() => {
 
   return (
     <ProductContent>
+        <Head>
+          <title>{prodTitle} - Skioutlet</title>
+        </Head>
         <img src={imgData.src} alt={prodImg}/>
         {/* {imgData.map((slide, index) => { 
           return (
@@ -107,8 +110,8 @@ useEffect(() => {
         <SingleProductDetails>
           <ProductSizeList>
             <b>Készlet</b>
-          {theProduct.map((prod) => 
-            <SizeListColumn>
+          {theProduct.map((prod, index) => 
+            <SizeListColumn key={index}>
               {prod.size ? <Asd>{prod.size}</Asd> : null}
               <Dsa>{prod.stock} darab</Dsa>
             </SizeListColumn>
