@@ -33,10 +33,10 @@ const Slideshow = ({ state, libraries, data }) => {
                 </Link>
             )
         })}
-        <Arrowbox>
+        {/* <Arrowbox>
           <Arrow onClick={() => setCurrent(current === 0 ? lengthN - 1 : current - 1)} className="arrows prev-arrow"><ion-icon name="chevron-back-outline"></ion-icon></Arrow>
           <Arrow onClick={() => setCurrent(current === lengthN - 1 ? 0 : current + 1)} className="arrows next-arrow"><ion-icon name="chevron-forward-outline"></ion-icon></Arrow>
-        </Arrowbox>
+        </Arrowbox> */}
     </Actions>
   )
 }

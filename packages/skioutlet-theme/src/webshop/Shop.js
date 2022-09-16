@@ -76,7 +76,7 @@ const Shop = ({ state, actions }) => {
 
 //Get IMG data
 function getIMGData() {
-  fetch("http://wp.skioutlet.hu/wp-content/uploads/2022/09/imgdata_rita1.csv")
+  fetch("http://wp.skioutlet.hu/wp-content/uploads/2022/09/keszlet.csv")
     .then(res => res.url)
     .then((response) => {
       Papa.parse(response, {
@@ -99,52 +99,75 @@ function getIMGData() {
  
 // console.log(imgData);
   
-// Get DATA
-function getData() {
-    fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_rita8.csv")
-      .then(res => res.url)
-      .then((response) => {
-        Papa.parse(response, {
-          encoding: "UTF-8",
-          download: true,
-          dynamicTyping: true,
-          header: true,
-        transformHeader: function(h, i) {
-          let header = [ "sku", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size", "img" ]
-          h = header[i]
-          // console.log(h);
-          return h
-        },
-        complete: function(results) {
-          let data = results.data.filter(prod => prod.stock > 0);
-          setWebarlista(data);
+//Get DATA
+// function getData() {
+//     fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_rita8.csv")
+//       .then(res => res.url)
+//       .then((response) => {
+//         Papa.parse(response, {
+//           encoding: "UTF-8",
+//           download: true,
+//           dynamicTyping: true,
+//           header: true,
+//         transformHeader: function(h, i) {
+//           let header = [ "sku", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size", "img" ]
+//           h = header[i]
+//           // console.log(h);
+//           return h
+//         },
+//         complete: function(results) {
+//           let data = results.data.filter(prod => prod.stock > 0);
+//           // setWebarlista(data);
 
-          let filterResult = results.data.filter(prod => prod.stock > 0);
-          let filterByColor = filteredSearchcode(filterResult, 'img');
-          setProductData(filterByColor)
-          setFullProductList(filterByColor)
-          // if(queryToFilter.length > 0) setFilterWordCollect(queryToFilter.split(" "))
-          setIsLoaded(true)
-        }
-        }) 
-      })
+//           let filterResult = results.data.filter(prod => prod.stock > 0);
+//           let filterByColor = filteredSearchcode(filterResult, 'img');
+//           setProductData(filterByColor)
+//           setFullProductList(filterByColor)
+//           setIsLoaded(true)
+//         }
+//         }) 
+//       })
+// }   
+function getData2() {
+  fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista.csv")
+    .then(res => res.url)
+    .then((response) => {
+      Papa.parse(response, {
+        encoding: "UTF-8",
+        download: true,
+        dynamicTyping: true,
+        header: true,
+      transformHeader: function(h, i) {
+        let header = [ "sku", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size" ]
+        h = header[i]
+        // console.log(h);
+        return h
+      },
+      complete: function(results) {
+        let data = results.data.filter(prod => prod.stock > 0);
+        setWebarlista(data);
+        setIsLoaded(true)
+      }
+      }) 
+    })
 }   
-//console.log(productData);
 
 // USEeFFECT
 useEffect(() => {
   getIMGData()
-  getData()
+  // getData()
+  getData2()
 }, [info.link])
 
-// DATA Összefésülés
-// const mergedData = webarlista.map(prod => {
-//   let res = imgData.map(elem => elem.sku === prod.sku ? elem.img : "") 
-//   return res
-//  } 
-// ) 
-  
-// console.log(mergedData);
+//Merge
+const mergeById = (a1, a2) =>
+  a1.map((itm) => ({
+    ...a2.find((item) => item.sku === itm.sku && item),
+    ...itm,
+  }));
+
+let mergedData = filteredSearchcode(mergeById(webarlista, imgData), 'img')
+
 
 // Handle pagination click
   function handlePageClick(data) {
@@ -157,10 +180,10 @@ useEffect(() => {
 
 
 // Filtering by cat/brand/sex
-  let brandList = filteredSearchcode(fullProductList, 'brand').map(data => data.brand.toLowerCase()).sort((a, b) => a.localeCompare(b));
+  let brandList = filteredSearchcode(mergedData, 'brand').map(data => data.brand.toLowerCase()).sort((a, b) => a.localeCompare(b));
 
   function filterCat1ByCat2(searchWord) {
-    let result = filteredSearchcode(fullProductList, 'cat1').map(data => {
+    let result = filteredSearchcode(mergedData, 'cat1').map(data => {
       if(data.cat2 === searchWord && data.cat1 != undefined) {
         return data.cat1
     }}).sort((a, b) => a.localeCompare(b));
@@ -193,7 +216,7 @@ useEffect(() => {
 // Filtermenu Cat
   let filterDataCathegory = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat")]
 
-  const filteredProducts = productData.filter(val => {
+  const filteredProducts = mergedData.filter(val => {
     if (searchTerm === "" || filterIt(searchTerm, val)) {
       return val
     } 
