@@ -235,7 +235,7 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
     setGender("")
     setSorting("")
     actions.router.set("/shop/")
-    getData()
+    // getData()
   }
 
 // TOTAL PAGE NUMBER  
