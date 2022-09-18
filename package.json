@@ -25,6 +25,7 @@
     "@frontity/tiny-router": "^1.4.4",
     "@frontity/wp-source": "^1.11.7",
     "@mui/material": "^5.8.2",
+    "array-merge-by-key": "^1.0.1",
     "dayjs": "^1.11.2",
     "frontity": "^1.17.2",
     "html2react": "^1.2.1",

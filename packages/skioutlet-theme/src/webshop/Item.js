@@ -14,13 +14,15 @@ function currencyConverter(number) {
 
 const Item = ({ state, prod }) => {
   const info = state.source.get(state.router.link)
-  let imgFolderName = prod.brand.toLowerCase();
-
+  let prodTitle = String(prod.title);
+  let prodBrand = String(prod.brand);
+  let imgFolderName = prodBrand.toLowerCase();
+  let prodImg = String(prod.img);
   // Get image
 const [imgData, setImgData] = useState([])
 function setSource() {
   try{
-      const src = `https://img.skioutlet.hu/product_images/${imgFolderName}/${prod.img}.jpg`
+      const src = `https://img.skioutlet.hu/product_images/${imgFolderName}/${prodImg}.jpg`
       setImgData({ src });
   }
   catch(err){
@@ -37,11 +39,11 @@ useEffect(() => {
   return (
     <ItemFrame>
         <Link link={generatePath("/shop/termek/:id", {
-            id: prod.img
+            id: prodImg
           })}>
         <ItemContent>
-            <img className='productwall-img' src={imgData.src} alt={prod.img} />
-            <h2 className='product-title'>{prod.title}</h2>
+            <img className='productwall-img' src={imgData.src} alt={prodImg} />
+            <h2 className='product-title'>{prodTitle}</h2>
             {/* <p>{prod.img}</p> */}
             <ItemPrice>
                 {prod.saleprice === prod.price ? null : <h2><SalePrice>{currencyConverter(prod.price)}</SalePrice></h2>}

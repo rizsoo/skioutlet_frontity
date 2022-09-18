@@ -13,7 +13,10 @@ const ProductsMosaik = ({ sorting, filteredProducts, nextNum }) => {
   
   return (
         <ProductsList>
-            {filteredProducts.length > 0 ? renderSorting(sorting).filter((item, i) => i >= nextNum - 15 & i < nextNum).map((prod, index) => <Item key={index} prod={prod} />) : <h2 className='sorry'>Nem található termék...</h2>}
+            {filteredProducts.length > 0 ? 
+            renderSorting(sorting).filter((item, i) => 
+            i >= nextNum - 15 & i < nextNum).map((prod, index) => 
+            <Item key={index} prod={prod} />) : <h2 className='sorry'>Nem található termék...</h2>}
         </ProductsList>
   )
 }

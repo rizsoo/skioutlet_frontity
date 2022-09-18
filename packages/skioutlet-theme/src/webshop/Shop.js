@@ -6,6 +6,8 @@ import felszerelesIcon from '../img/equipement.png'
 import atomicLogo from '../img/atomicIcon.png'
 import sizeLogo from '../img/size.png'
 
+import arrayMergeByKey from 'array-merge-by-key';
+
 import Link from "@frontity/components/link"
 import Papa from 'papaparse';
 import filteredSearchcode from './filter_by_color_function';
@@ -24,7 +26,7 @@ import SectionSize from "./SectionSize"
 const Shop = ({ state, actions }) => {
   const info = state.source.get(state.router.link)
 
-// UTF Decoder
+  // UTF Decoder
   function urldecode(str) {
     return decodeURIComponent((str+'').replace(/\+/g, '%20'));
  }
@@ -85,7 +87,7 @@ function getIMGData() {
         dynamicTyping: true,
         header: true,
       transformHeader: function(h, i) {
-        let header = [ "sku", "img", "title", "stock", "saleprice", "price", "size" ]
+        let header = [ "sku", "img" ]
         h = header[i]
         // console.log(h);
         return h
@@ -100,34 +102,34 @@ function getIMGData() {
 // console.log(imgData);
   
 //Get DATA
-function getData() {
-    fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_rita8.csv")
-      .then(res => res.url)
-      .then((response) => {
-        Papa.parse(response, {
-          encoding: "UTF-8",
-          download: true,
-          dynamicTyping: true,
-          header: true,
-        transformHeader: function(h, i) {
-          let header = [ "sku", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size", "img" ]
-          h = header[i]
-          // console.log(h);
-          return h
-        },
-        complete: function(results) {
-          let data = results.data.filter(prod => prod.stock > 0);
-          // setWebarlista(data);
+// function getData() {
+//     fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_rita8.csv")
+//       .then(res => res.url)
+//       .then((response) => {
+//         Papa.parse(response, {
+//           encoding: "UTF-8",
+//           download: true,
+//           dynamicTyping: true,
+//           header: true,
+//         transformHeader: function(h, i) {
+//           let header = [ "sku", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size", "img" ]
+//           h = header[i]
+//           // console.log(h);
+//           return h
+//         },
+//         complete: function(results) {
+//           let data = results.data.filter(prod => prod.stock > 0);
+//           // setWebarlista(data);
 
-          let filterResult = results.data.filter(prod => prod.stock > 0);
-          let filterByColor = filteredSearchcode(filterResult, 'img');
-          setProductData(filterByColor)
-          setFullProductList(filterByColor)
-          setIsLoaded(true)
-        }
-        }) 
-      })
-}   
+//           let filterResult = results.data.filter(prod => prod.stock > 0);
+//           let filterByColor = filteredSearchcode(filterResult, 'img');
+//           setProductData(filterByColor)
+//           setFullProductList(filterByColor)
+//           setIsLoaded(true)
+//         }
+//         }) 
+//       })
+// }   
 function getData2() {
   fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista.csv")
     .then(res => res.url)
@@ -151,22 +153,20 @@ function getData2() {
       }) 
     })
 }   
+// console.log(webarlista);
 
 // USEeFFECT
 useEffect(() => {
   getIMGData()
-  getData()
+  // getData()
   getData2()
 }, [info.link])
 
-//Merge
-const mergeById = (a1, a2) =>
-  a1.map((itm) => ({
-    ...a2.find((item) => item.sku === itm.sku && item),
-    ...itm,
-  }));
 
-let mergedData = filteredSearchcode(mergeById(webarlista, imgData), 'img')
+
+let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista), 'img').filter(el => el.sku != undefined || el.sku != null)
+
+// console.log(productData);
 
 // Handle pagination click
   function handlePageClick(data) {
@@ -179,12 +179,12 @@ let mergedData = filteredSearchcode(mergeById(webarlista, imgData), 'img')
 
 
 // Filtering by cat/brand/sex
-  let brandList = filteredSearchcode(productData, 'brand').map(data => data.brand.toLowerCase()).sort((a, b) => a.localeCompare(b));
+  let brandList = filteredSearchcode(mergedData, 'brand').map(data => data.brand != undefined ? data.brand.toLowerCase() : "hiányos").sort((a, b) => a.localeCompare(b));
 
   function filterCat1ByCat2(searchWord) {
-    let result = filteredSearchcode(productData, 'cat1').map(data => {
-      if(data.cat2 === searchWord && data.cat1 != undefined) {
-        return data.cat1
+    let result = filteredSearchcode(mergedData, 'cat1').map(data => {
+      if(data.cat2 === searchWord && data.cat1 != undefined && data.cat2 != undefined) {
+        return String(data.cat1)
     }}).sort((a, b) => a.localeCompare(b));
     return result.filter(el => el != undefined)
   }
@@ -215,7 +215,7 @@ let mergedData = filteredSearchcode(mergeById(webarlista, imgData), 'img')
 // Filtermenu Cat
   let filterDataCathegory = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat")]
 
-  const filteredProducts = productData.filter(val => {
+  const filteredProducts = mergedData.filter(val => {
     if (searchTerm === "" || filterIt(searchTerm, val)) {
       return val
     } 

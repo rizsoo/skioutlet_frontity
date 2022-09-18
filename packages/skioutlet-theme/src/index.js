@@ -14,7 +14,7 @@ const skioutletTheme = {
           isShop: true,
           isReady: true
         }
-      },
+      }
     },  
   },
   actions: {

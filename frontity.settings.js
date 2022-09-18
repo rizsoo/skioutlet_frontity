@@ -29,7 +29,8 @@ const settings = {
           ["Termékek", "/shop/"],
           ["Rólunk", "/rolunk/"],
           ["Kapcsolat", "/kapcsolat/"],
-        ]
+        ],
+        "products": [],
       }
     },
     "@frontity/tiny-router",

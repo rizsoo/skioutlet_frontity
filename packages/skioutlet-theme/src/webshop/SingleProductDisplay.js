@@ -1,32 +1,31 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
 import { connect, styled, Head } from "frontity"
+import Link from "@frontity/components/link"
 
-let SingleProductDisplay = ( { theProduct } ) => {
+
+let SingleProductDisplay = ( { result, theProduct } ) => {
   //data
-  let prodTitle = theProduct.map(prod => prod.title).shift();
-  let prodImg = theProduct.map(prod => prod.img).pop();
-  // console.log(prodImg);
-  let prodBrand = theProduct.map(prod => prod.brand).pop();
-  let prodBrandLow = theProduct.map(prod => prod.brand.toLowerCase()).pop();
-  let prodPrice = theProduct.map(prod => prod.price).pop();
-  let prodSalePrice = theProduct.map(prod => prod.saleprice).pop();
-  let prodSku = theProduct.map(prod => prod.sku);
-  let prodGender = theProduct.map(prod => getGender(prod)).pop();
+  let prodTitle = String(result.map(prod => prod.title).shift());
+  let prodImg = String(result.map(prod => prod.img).pop());
+  let prodBrand = String(result.map(prod => prod.brand).pop());
+  // let prodBrandLow = prodBrand.toLowerCase();
+  let prodPrice = result.map(prod => prod.price).pop();
+  let prodSalePrice = result.map(prod => prod.saleprice).pop();
+  let prodSku = result.map(prod => prod.sku);
+  let prodGender = String(result.map(prod => getGender(prodTitle)).pop());
   //kategoriak
-  let prodCat1 = theProduct.map(prod => prod.cat1).shift();
-  let prodCat2 = theProduct.map(prod => prod.cat2).shift(); 
+  let prodCat1 = result.map(prod => prod.cat1).shift();
+  let prodCat2 = result.map(prod => prod.cat2).shift(); 
 
 // Get product gender //
 function getGender(val) {
-  let title = val.title;
-    if(title.includes("férfi")) return "Férfi";
-    if(title.includes("női")) return "Női";
-    if(title.includes("junior")) return "Junior";
-    if(title.includes("gyerek")) return "Gyerek";
+    if(val.includes("férfi")) return "Férfi";
+    if(val.includes("női")) return "Női";
+    if(val.includes("junior")) return "Junior";
+    if(val.includes("gyerek")) return "Gyerek";
     else return "Unisex"
 }
-  // console.log(theProduct);
 
 // CURRENCY STLYE CONVERTER
   function currencyConverter(number) {
@@ -40,21 +39,22 @@ function getGender(val) {
 // Slide
 // const [current, setCurrent] = useState(0);
 
-
 // Get image
 const [imgData, setImgData] = useState([])
 function setSource() {
   try{
-      const src = `https://img.skioutlet.hu/product_images/${prodBrandLow}/${prodImg}.jpg`
+      const src = `https://img.skioutlet.hu/product_images/${prodBrand.toLowerCase()}/${prodImg}.jpg`
       setImgData({ src });
   }
   catch(err){
-      console.log("img doesnt exists");
+      console.log("img doesn't exists");
   }
 }
+console.log(`https://img.skioutlet.hu/product_images/${prodBrand.toLowerCase()}/${prodImg}.jpg`);
+
 useEffect(() => {
   setSource();
-}, [])
+}, [prodBrand])
 
 
 // const length = imgData.length;
@@ -74,7 +74,7 @@ useEffect(() => {
 //   setImgData([first, second, third])
 // }
 // collectImages()
-// console.log(imgData);
+console.log(imgData);
 
 
     // const nextSlide = () => {
@@ -110,7 +110,7 @@ useEffect(() => {
         <SingleProductDetails>
           <ProductSizeList>
             <b>Készlet</b>
-          {theProduct.map((prod, index) => 
+          {result.map((prod, index) => 
             <SizeListColumn key={index}>
               {prod.size ? <Asd>{prod.size}</Asd> : null}
               <Dsa>{prod.stock} darab</Dsa>
@@ -119,7 +119,11 @@ useEffect(() => {
           </ProductSizeList>
           <div>
             <b>Kategóriák</b>
-            <CatListColumn><Wsd>{prodCat1}, {prodBrand}, {prodGender}</Wsd></CatListColumn>
+            <CatListColumn><Wsd>
+              <Link link={`https://skioutlet.hu/shop/search/?s=${prodCat1}`}>{prodCat1}</Link> 
+              , <Link link={`https://skioutlet.hu/shop/search/?s=${prodBrand}`}>{prodBrand}</Link>
+              , <Link link={`https://skioutlet.hu/shop/search/?s=${prodGender}`}>{prodGender}</Link>
+              </Wsd></CatListColumn>
           </div>
         </SingleProductDetails>
         <ImportantInfo>Üzletünk nem webáruház, így termékeink kizárólag szaküzletünkben vásárolhatóak meg!</ImportantInfo>
