@@ -13,9 +13,9 @@ const GearSection = ( { sorting, actions, tag, index, gear, filterDataCathegory,
   function handlePushToArray(word) {
     const searchArray = searchTerm.split(" ");
     
-    let allCathegories = filterDataCathegory.map(el => el.toLocaleLowerCase());
-    
-    const result = searchArray.filter(el => !allCathegories.includes(el))
+    let allCathegories = filterDataCathegory.map(el => el.toLocaleLowerCase().split(" ").pop());
+    console.log(allCathegories);
+    const result = searchArray.filter(el => !allCathegories.includes(el) && !searchArray.includes(el))
     // console.log(result);
     !result.includes(word) ? result.push(word) : result;
     return result.join(" ").trim();

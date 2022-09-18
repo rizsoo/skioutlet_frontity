@@ -61,9 +61,9 @@ const Shop = ({ state, actions }) => {
     //GetData states
     const [imgData, setImgData] = useState([])
     const [webarlista, setWebarlista] = useState([])
-    const [productData, setProductData] = useState([])
+    // const [productData, setProductData] = useState([])
 
-    const [fullProductList, setFullProductList] = useState([])
+    // const [fullProductList, setFullProductList] = useState([])
     const [pageNum, setPageNum] = useState(Number(cutingURL(location)));
     const [searchTerm, setSearchTerm] = useState(urldecode(queryLast))
     const [isLoaded, setIsLoaded] = useState(false)
@@ -171,7 +171,7 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
   let nextNum = pageNum * 15;
 
 // Filtering by cat/brand/sex
-  let brandList = filteredSearchcode(mergedData, 'brand').map(data => data.brand != undefined ? data.brand.toLowerCase() : "hiányos").sort((a, b) => a.localeCompare(b));
+  let brandList = filteredSearchcode(mergedData, 'brand').map(data => data.brand != undefined ? data.brand.toLowerCase() : "hiányos").map(brand => brand.includes(" ") ? brand.split(" ").join("") : brand).sort((a, b) => a.localeCompare(b));
 
   function filterCat1ByCat2(searchWord) {
     let result = filteredSearchcode(mergedData, 'cat1').map(data => {
@@ -253,7 +253,7 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
           setIsGenderOpen(false); 
           setIsBrandOpen(false);
           // setIsSizeOpen(false);
-          setFilterDataCathegory(filterCat1ByCat2("Felszerelés")) 
+          // setFilterDataCathegory(filterCat1ByCat2("Felszerelés")) 
         }}><img src={felszerelesIcon} alt="Felszerelés" /></Button>
         {/* CLOTHING */}
         <Button onClick={() => { 
@@ -262,7 +262,7 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
           setIsGenderOpen(false); 
           setIsEquipementOpen(false) 
           // setIsSizeOpen(false);
-          setFilterDataCathegory(filterCat1ByCat2("Ruházat")) 
+          // setFilterDataCathegory(filterCat1ByCat2("Ruházat")) 
         }}><ion-icon name="shirt-outline" alt="Ruházat"></ion-icon></Button>
         <Button onClick={() => { 
           setIsBrandOpen(!isBrandOpen)
@@ -320,7 +320,7 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
           })
         }
       </SizeList>:null} */}
-      <FilterSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+      <FilterSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} brandList={brandList}/>
       <Pagination sorting={sorting} searchTerm={searchTerm} handlePageClick={handlePageClick} pageNum={pageNum} totalPageNum={totalPageNum} />
       <Sorting action="/shop/search/" onInput={() => { 
         setSorting(event.target.value) 

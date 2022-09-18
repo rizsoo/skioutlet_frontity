@@ -2,9 +2,9 @@ import FilterWord from "./FilterWord";
 import { Link, generatePath } from "react-router-dom";
 import { connect, styled } from "frontity"
 
-function FilterSearch( { state, searchTerm, setSearchTerm } ) {
+function FilterSearch( { state, searchTerm, setSearchTerm, brandList } ) {
     const info = state.source.get(state.router.link)
-
+    
     let lowCaseWords = searchTerm.split(" ").map(el => el.toLowerCase());
     let searchUrl = lowCaseWords.map(item => item).join('+')
 
