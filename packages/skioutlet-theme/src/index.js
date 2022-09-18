@@ -13,6 +13,10 @@ const skioutletTheme = {
         "/shop/": {
           isShop: true,
           isReady: true
+        },
+        "/versenyek/": {
+          isReady: true,
+          isRace: true
         }
       }
     },  

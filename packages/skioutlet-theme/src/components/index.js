@@ -12,11 +12,15 @@ import Shop from "../webshop/Shop.js"
 import Product from "../webshop/Product"
 import Error from "./error"
 import Header from "./Header"
+import Footer from "./Footer"
+import Versenyek from "./versenyek"
 
 const Root = ({ state }) => {
   const data = state.source.get(state.router.link)
-  
+  console.log(data);
+  console.log(state);
   const [isHomepage, setIsHomepage] = useState(state.router.link === "/" ? true : false)
+  const [postData, setPostData] = useState(data)
   const [metaTitle, setMetaTitle] = useState("");
 
   function isMetaGood() {
@@ -64,7 +68,7 @@ const Root = ({ state }) => {
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
       </Head>
       <Header />
-      <Main isHomepage={isHomepage}>
+      <Main isHomepage={isHomepage} postData={postData}>
         <Switch>
           <Loading when={data.isFetching} />
           <Error when={data.isError} />
@@ -75,8 +79,10 @@ const Root = ({ state }) => {
           <Shop when={data.isPagination} />
           <Shop when={data.isSearch} />
           <Product when={data.isItem} />
+          <Versenyek when={data.isRace} />
         </Switch>
       </Main>
+      <Footer />
     </>
   )
 }
@@ -85,12 +91,16 @@ const Main = styled.main`
   max-width: 900px;
   padding: 0 10px 10px 10px;
   margin: auto;
-
+  min-height: 50vh;
   img {
     max-width: 100%;
   }
   h2 {
     margin: 0.5em 0;
+    color: black;
+  }
+  h3 {
+    color: black;
   }
   p {
     line-height: 1.25em;
@@ -100,6 +110,16 @@ const Main = styled.main`
     color: #828282;
     font-size: 0.8em;
     margin-bottom: 1em;
+  }
+  iframe {
+    max-width: 400px;
+    max-height: 250px;
+  }
+  a {
+    color: ${(props) => (props.postData.isPostType ? "#ed2123" : "inherit")};
+  }
+  .wp-block-buttons {
+    background color: #ed2123;
   }
   @media (max-width: 600px) {
     padding: 0 20px 20px 20px;

@@ -50,7 +50,6 @@ function setSource() {
       console.log("img doesn't exists");
   }
 }
-console.log(`https://img.skioutlet.hu/product_images/${prodBrand.toLowerCase()}/${prodImg}.jpg`);
 
 useEffect(() => {
   setSource();
@@ -74,7 +73,7 @@ useEffect(() => {
 //   setImgData([first, second, third])
 // }
 // collectImages()
-console.log(imgData);
+// console.log(imgData);
 
 
     // const nextSlide = () => {
@@ -143,6 +142,7 @@ const ProductContent = styled.div`
   img {
     max-width: 350px;
     width: calc(100vw - 20px);
+    height: fit-content;
     @media (max-width: 600px) {
       max-width: 100%;
     }
@@ -179,7 +179,6 @@ const ProductDetailBox = styled.div`
 `
 const SinglePriceTag = styled.div`
   background-color: #E93A3A;
-  color: white;
   padding: 10px 15px;
   display: flex;
   align-items: center;
@@ -188,6 +187,7 @@ const SinglePriceTag = styled.div`
   h2 {
     background-color: #E93A3A;
     padding: 0;
+    color: white !important;
   }
 `
 const SalePrice = styled.s`

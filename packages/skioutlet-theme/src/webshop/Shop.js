@@ -57,7 +57,6 @@ const Shop = ({ state, actions }) => {
     const orderNameOnly = orderResult.includes("&") ? orderResult.split("&")[0] : orderResult;
     // console.log(orderNameOnly);
 
-
 //STATES
     //GetData states
     const [imgData, setImgData] = useState([])
@@ -99,8 +98,6 @@ function getIMGData() {
     })
 }
  
-// console.log(imgData);
-  
 //Get DATA
 // function getData() {
 //     fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_rita8.csv")
@@ -162,11 +159,7 @@ useEffect(() => {
   getData2()
 }, [info.link])
 
-
-
 let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista), 'img').filter(el => el.sku != undefined || el.sku != null)
-
-// console.log(productData);
 
 // Handle pagination click
   function handlePageClick(data) {
@@ -176,7 +169,6 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
   }
   
   let nextNum = pageNum * 15;
-
 
 // Filtering by cat/brand/sex
   let brandList = filteredSearchcode(mergedData, 'brand').map(data => data.brand != undefined ? data.brand.toLowerCase() : "hiányos").sort((a, b) => a.localeCompare(b));
@@ -188,8 +180,6 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
     }}).sort((a, b) => a.localeCompare(b));
     return result.filter(el => el != undefined)
   }
-
-
 
   // Get each word
     function filterIt(terms, a) {

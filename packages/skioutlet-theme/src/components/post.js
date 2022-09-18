@@ -17,7 +17,7 @@ const Post = ({ state, libraries }) => {
           <meta name="Skioutlet sí szaküzlet" content={post.excerpt.rendered} />
         </Head>
         <PostInfo>
-          {formattedDate}
+          Posted {formattedDate}
         </PostInfo>
         <h2>{post.title.rendered}</h2>
         <Html2React html={post.content.rendered} />
@@ -29,9 +29,9 @@ const PostContent = styled.div`
 
 const PostInfo = styled.div`
   background-image: linear-gradient(to right, #f4f4f4, #fff);
-  margin-bottom: 1em;
+  margin: 1em 0;
   padding: 0.5em;
-  border-left: 4px solid lightseagreen;
+  border-left: 4px solid #ed2123;
   font-size: 0.8em;
   & > p {
     margin: 0;
