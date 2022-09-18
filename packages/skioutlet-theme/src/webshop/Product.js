@@ -21,7 +21,7 @@ function Product({ state }) {
   const url = res.id;
 
   function getIMGData() {
-    fetch("http://wp.skioutlet.hu/wp-content/uploads/2022/09/keszlet.csv")
+    fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/keszlet.csv")
       .then(res => res.url)
       .then((response) => {
         Papa.parse(response, {
