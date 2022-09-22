@@ -17,8 +17,8 @@ import Versenyek from "./versenyek"
 
 const Root = ({ state }) => {
   const data = state.source.get(state.router.link)
-  console.log(data);
-  console.log(state);
+  // console.log(data);
+  // console.log(state);
   const [isHomepage, setIsHomepage] = useState(state.router.link === "/" ? true : false)
   const [postData, setPostData] = useState(data)
   const [metaTitle, setMetaTitle] = useState("");

@@ -10,9 +10,9 @@ const BrandSection = ( { sorting, actions, tag, index, brandList, brand, setBran
 
   function handlePushToArray(word) {
     const searchArray = searchTerm.split(" ");
-    console.log(brandList);
+    // console.log(brandList);
     const result = searchArray.filter(el => !brandList.includes(el))
-    console.log(result);
+    // console.log(result);
     !result.includes(word) ? result.push(word) : result;
     return result.join(" ").trim();
     }  

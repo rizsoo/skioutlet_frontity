@@ -11,13 +11,15 @@ const GearSection = ( { sorting, actions, tag, index, gear, filterDataCathegory,
   let newTag = tag.toLocaleLowerCase()
 
   function handlePushToArray(word) {
+    let wordNoSpace = word.includes(" ") ? word.split(" ").join("") : word;
+    console.log(wordNoSpace);
     const searchArray = searchTerm.split(" ");
-    
-    let allCathegories = filterDataCathegory.map(el => el.toLocaleLowerCase().split(" ").pop());
-    console.log(allCathegories);
-    const result = searchArray.filter(el => !allCathegories.includes(el) && !searchArray.includes(el))
-    // console.log(result);
-    !result.includes(word) ? result.push(word) : result;
+    console.log(searchArray);
+    let noCapitalCathegories = filterDataCathegory.map(el => el.toLocaleLowerCase());
+    let noSpaceCathegories = noCapitalCathegories.map(el => !el.includes(" ") ? el : el.split(" ").join("-"));
+    const result = searchArray.filter(el => !noSpaceCathegories.includes(el))
+    console.log(result);
+    !result.includes(word) && !result.includes() ? result.push(word.includes(" ") ? word.split(" ").join("-") : word) : result;
     return result.join(" ").trim();
     }  
 

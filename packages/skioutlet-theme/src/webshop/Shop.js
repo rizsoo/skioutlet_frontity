@@ -49,6 +49,7 @@ const Shop = ({ state, actions }) => {
     
     const queryResult = searchResult != null && searchResult.length > 0 ? searchResult.toLocaleLowerCase() : '';
     const queryLast = queryResult.includes("+") ? queryResult.split("+").join(" ") : queryResult;
+    console.log(queryLast);
     const queryArray = urldecode(queryResult).split(" ");
     // console.log(queryArray);
 
@@ -188,7 +189,7 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
       //  } else { return a
       // }
       let words = terms.split(" ");
-      words = words.map(val => val.replace(/\"/g, ""));
+      words = words.map(val => !val.includes("-") ? val.replace(/\"/g, "") : val.split("-").join(" ").replace(/\"/g, ""));
         const v = Object.values(a);
         const f = JSON.stringify(v).toLowerCase();
         let result = words.every(val => f.includes(val))
