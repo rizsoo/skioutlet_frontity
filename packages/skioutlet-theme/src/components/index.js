@@ -66,6 +66,13 @@ const Root = ({ state }) => {
         <meta name="Skioutlet sí szaküzlet" content="Magyarország első skioutlet áruháza. Személyre szabott kiszolgálás! Állandó akciók, garantált minőség. Síkabát, sínadrág, síléc, sícipő, bukósisak" />
         <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-167804906-1"></script>
+        <script>
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments)}
+          gtag('js', new Date());
+          gtag('config', 'UA-167804906-1');
+        </script>
       </Head>
       <Header />
       <Main isHomepage={isHomepage} postData={postData}>
