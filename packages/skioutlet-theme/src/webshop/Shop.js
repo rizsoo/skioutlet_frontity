@@ -173,7 +173,7 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
 
 // Filtering by cat/brand/sex
   let brandList = filteredSearchcode(mergedData, 'brand').map(data => data.brand != undefined ? data.brand.toLowerCase() : "hiányos").map(brand => brand.includes(" ") ? brand.split(" ").join("") : brand).sort((a, b) => a.localeCompare(b));
-
+console.log(brandList);
   function filterCat1ByCat2(searchWord) {
     let result = filteredSearchcode(mergedData, 'cat1').map(data => {
       if(data.cat2 === searchWord && data.cat1 != undefined && data.cat2 != undefined) {
@@ -184,15 +184,14 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
 
   // Get each word
     function filterIt(terms, a) {
-      // if(a.title.toLocaleLowerCase().includes("junior")) {
-      //   return a.title.toLocaleLowerCase().replace("junior", "gyerek")
-      //  } else { return a
-      // }
       let words = terms.split(" ");
       words = words.map(val => !val.includes("-") ? val.replace(/\"/g, "") : val.split("-").join(" ").replace(/\"/g, ""));
         const v = Object.values(a);
+        const brandNames = a.brand ? a.brand.toLowerCase() : "";
+        let isCat = words.some(el => brandList.includes(el)) ? words.some(el => el === brandNames) : true;
+        console.log(isCat);
         const f = JSON.stringify(v).toLowerCase();
-        let result = words.every(val => f.includes(val))
+        let result = words.every(val => f.includes(val) && isCat)
           return result;
     };
 
