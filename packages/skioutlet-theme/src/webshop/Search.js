@@ -20,7 +20,7 @@ const SearchBarBox = styled.form`
     box-sizing: border-box;
     font-weight: 400;
     box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.125);
-
+    height: 40px;
     margin: 0;
     display: flex;
     align-items: center;

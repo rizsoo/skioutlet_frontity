@@ -2,8 +2,10 @@ import React from "react"
 import { useEffect, useState } from 'react'
 import { connect, styled } from "frontity"
 
+import genderIcon from '../img/genderIcon.png'
 import felszerelesIcon from '../img/equipement.png'
 import atomicLogo from '../img/atomicIcon.png'
+import jacketIcon from '../img/jacketIcon.png'
 import sizeLogo from '../img/size.png'
 
 import arrayMergeByKey from 'array-merge-by-key';
@@ -173,7 +175,7 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
 
 // Filtering by cat/brand/sex
   let brandList = filteredSearchcode(mergedData, 'brand').map(data => data.brand != undefined ? data.brand.toLowerCase() : "hiányos").map(brand => brand.includes(" ") ? brand.split(" ").join("") : brand).sort((a, b) => a.localeCompare(b));
-console.log(brandList);
+
   function filterCat1ByCat2(searchWord) {
     let result = filteredSearchcode(mergedData, 'cat1').map(data => {
       if(data.cat2 === searchWord && data.cat1 != undefined && data.cat2 != undefined) {
@@ -189,13 +191,15 @@ console.log(brandList);
         const v = Object.values(a);
         const brandNames = a.brand ? a.brand.toLowerCase() : "";
         let isCat = words.some(el => brandList.includes(el)) ? words.some(el => el === brandNames) : true;
-        console.log(isCat);
+        // console.log(isCat);
         const f = JSON.stringify(v).toLowerCase();
         let result = words.every(val => f.includes(val) && isCat)
           return result;
     };
 
 // Filtermenu STATES
+  const [hastagOpen, setHastagOpen] = useState("")
+  const [sectionList, setSectionList] = useState([])
   const [gender, setGender] = useState("");
   const [brand, setBrand] = useState("brandList");
   const genders = ["férfi", "női", "gyerek", "unisex"]
@@ -233,12 +237,46 @@ console.log(brandList);
 
   // console.log(searchTerm);
 
+  const filterButtons = [
+    {
+      "name": "gender",
+      "hun": "Férfi, Női, Gyerek...",
+      "icon": genderIcon,
+      "list": genders
+    },
+    {
+      "name": "equipment",
+      "hun": "Felszerelés",
+      "icon": felszerelesIcon,
+      "list": filterCat1ByCat2("Ruházat")
+    },
+    {
+      "name": "clothing",
+      "hun": "Ruházat",
+      "icon": jacketIcon,
+      "list": filterCat1ByCat2("Felszerelés")
+    },
+    {
+      "name": "brand",
+      "hun": "Márka",
+      "icon": atomicLogo,
+      "list": brandList
+    },
+  ];
+
   return (
     <ShopContent>
       <FilterBar>
         <DelButton onClick={clearOutSearch} ><ion-icon name="trash-outline" title="Minden preferencia törlése"></ion-icon></DelButton>
         <Search/>
         {/* GENDER */}
+        {/* {filterButtons.map((el, index) => {
+          return (
+            <Button key={index} onClick={() => setHastagOpen(el.name)}>
+              <img src={el.icon} alt={el.hun} />
+            </Button>
+          )
+        })} */}
         <Button onClick={() => { 
           setIsGenderOpen(!isGenderOpen); 
           setIsEquipementOpen(false);
@@ -278,39 +316,40 @@ console.log(brandList);
           setIsGenderOpen(false); 
           setIsEquipementOpen(false);
         }}><img src={sizeLogo} alt="Méret" /></Button> */}
+        
       </FilterBar>
       {/* Filter Gender */}
-      {isGenderOpen?<WearMenu>
+      {isGenderOpen?<FilterButton>
         {genders.map((tag, index) => {
           return (
             <GenderSection key={index} sorting={sorting} tag={tag} index={index} gender={gender} genders={genders} setGender={setGender} setPageNum={setPageNum} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
           )}
         )}
-      </WearMenu>:null}
+      </FilterButton>:null}
       {/* Filter Clothing */}
-      {isToWearOpen?<WearMenu>
+      {isToWearOpen?<FilterButton>
         {filterCat1ByCat2("Ruházat").map((tag, index) => {
           return (
             <SectionGear key={index} sorting={sorting} tag={tag} index={index} gear={gear} filterDataCathegory={filterDataCathegory} setGear={setGear} setPageNum={setPageNum} searchTerm={searchTerm} setSearchTerm={setSearchTerm}  />
               )}
         )}
-      </WearMenu>:null}
+      </FilterButton>:null}
       {/* Filter Equipement */}
-      {isEquipementOpen?<WearMenu>
+      {isEquipementOpen?<FilterButton>
         {filterCat1ByCat2("Felszerelés").map((tag, index) => {
           return (
             <SectionGear key={index} sorting={sorting} tag={tag} index={index} gear={gear} filterDataCathegory={filterDataCathegory} setGear={setGear} setPageNum={setPageNum} searchTerm={searchTerm} setSearchTerm={setSearchTerm}  />
           )}
         )}
-      </WearMenu>:null}
+      </FilterButton>:null}
       {/* Filter Brand */}
-      {isBrandOpen?<WearMenu>
+      {isBrandOpen?<FilterButton>
           {brandList.map((tag, index) => {
             return (
               <BrandSection key={index} sorting={sorting} tag={tag} index={index} brandList={brandList} brand={brand} setBrand={setBrand} setPageNum={setPageNum} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
             )}
           )}
-      </WearMenu>:null}
+      </FilterButton>:null}
       {/* Filter SIZE */}
       {/* {isSizeOpen?<SizeList>
         {sizeList.map((tag, index) => {
@@ -356,8 +395,8 @@ const FilterBar = styled.div`
     cursor: pointer;
     margin: 0;
     background-color: #f9f9f9;
-    width: 35px;
-    height: 35px;     
+    width: 40px;
+    height: 40px;     
     display: flex;
     align-items: center;
     justify-content: center;
@@ -373,11 +412,11 @@ const DelButton = styled.s`
 `
 const Button = styled.s`
     img {
-      height: 22px;
+      height: 26px;
     }
     position: realtive;    
 `
-const WearMenu = styled.div`
+const FilterButton = styled.div`
     display: flex;
     flex-wrap: wrap;
     width: 100%;

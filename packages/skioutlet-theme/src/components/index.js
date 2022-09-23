@@ -112,6 +112,7 @@ const Main = styled.main`
     margin-bottom: 1em;
   }
   iframe {
+    width: calc(100vw - 40px);
     max-width: 400px;
     max-height: 250px;
   }

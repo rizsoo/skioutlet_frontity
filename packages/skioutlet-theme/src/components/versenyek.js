@@ -32,6 +32,7 @@ const Versenyek = ({ state, libraries, actions }) => {
           )
         })}
       </CurrentRace>
+        <hr></hr>
       <VTitle>Eddigi versenyeink</VTitle>
       <VItems>
         {res.filter(el => el.categories.includes(131) && !el.categories.includes(954)).sort((a, b) => dayjs(a.date) > dayjs(b.date) ? -1 : 1).map((item) => {
@@ -75,7 +76,8 @@ const CurrentRaceItem = styled.div`
   color: steelblue;
   text-decoration: none;
   box-sizing: border-box;
-  
+  border-radius: 8px;
+
   overflow: hidden;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
     img {
@@ -107,10 +109,8 @@ const VTitle = styled.h4`
   text-align: left;
   width: 100%;
   font-size: 1.3em;
-  margin-top: 15px;
-  @media (max-width: 800px) {
-    margin-bottom: 25px;
-  }
+  margin: 15px 0;
+
 `
 const VItems = styled.div`
   display: flex;
@@ -132,15 +132,15 @@ const VItem = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  
-  margin: 18px 0;
+  border-radius: 8px;
+  margin: 0;
   font-size: 1.2em;
   color: steelblue;
   text-decoration: none;
   box-sizing: border-box;
   
   overflow: hidden;
-  box-shadow: rgba(0, 0, 0, 0.15) 1.95px 1.95px 2.6px;  
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
   img {
     min-width: 100%;
     min-height: 180px !important;
