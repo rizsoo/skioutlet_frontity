@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { connect, styled } from "frontity"
 
-const Section = ( { sorting, actions, tag, index, gear, filterDataCathegory, setGear, setPageNum, searchTerm, setSearchTerm } ) => {
+const Section = ( { actions, selectionList, sorting, tag, index, genders, setPageNum, searchTerm, setSearchTerm } ) => {
   
   const [isHighClass, setHighClass] = useState(false)
   const [subIcon, setSubIcon] = useState([])
@@ -15,7 +15,7 @@ const Section = ( { sorting, actions, tag, index, gear, filterDataCathegory, set
     console.log(wordNoSpace);
     const searchArray = searchTerm.split(" ");
     console.log(searchArray);
-    let noCapitalCathegories = filterDataCathegory.map(el => el.toLocaleLowerCase());
+    let noCapitalCathegories = selectionList.map(el => el.toLocaleLowerCase());
     let noSpaceCathegories = noCapitalCathegories.map(el => !el.includes(" ") ? el : el.split(" ").join("-"));
     const result = searchArray.filter(el => !noSpaceCathegories.includes(el))
     console.log(result);
@@ -23,6 +23,7 @@ const Section = ( { sorting, actions, tag, index, gear, filterDataCathegory, set
     return result.join(" ").trim();
     }  
 
+// SET IMAGES
   function setSource() {
     try{
         const src = require(`../img/icons/${newTag}.png`).default
@@ -44,7 +45,7 @@ const Section = ( { sorting, actions, tag, index, gear, filterDataCathegory, set
   useEffect(() => {
     setSource();
     setSourceColored();
-  }, [])
+  }, [selectionList])
 
   return (
     <SubButton 
@@ -53,22 +54,16 @@ const Section = ( { sorting, actions, tag, index, gear, filterDataCathegory, set
       onMouseLeave={() => {setIsVisible("none")}}
       onClick={() => {
         setHighClass(!isHighClass); 
-        setGear(newTag);
         setPageNum(1);
-        // console.log(gender);
         setSearchTerm(handlePushToArray(newTag))
-        // setSearchTerm(searchTerm.includes(" ") ? searchTerm.split(" ").some(r => {
-        //   if(genders.includes(r))
-        //     r.replace(r, newTag)}) : searchTerm)
         actions.router.set(`/shop/search/${sorting == undefined ? "" : `?orderby=${sorting}`}${sorting !== undefined ? "&" : "?"}s=${handlePushToArray(newTag).length > 0 ? handlePushToArray(newTag).split(" ").join("+") : handlePushToArray(newTag)}`)
       }}>
         <img  
           key={index}
-          src={gear === newTag ? subIconColored.src : subIcon.src}
+          src={searchTerm.includes(newTag) ? subIconColored.src : subIcon.src}
           alt={""}
         />
         <img  
-          // key={index}
           style={{display: `${isVisible}`}}
           src={subIconColored.src}
           alt={""}

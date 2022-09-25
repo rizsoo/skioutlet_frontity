@@ -20,6 +20,7 @@ import Pagination from "./Pagination"
 import Hashtag from "./Hashtag"
 import FilterSearch from "./FilterSearch"
 
+import Section from "./Section"
 import GenderSection from "./SectionGender"
 import SectionGear from "./SectionGear"
 import BrandSection from "./SectionBrand"
@@ -198,8 +199,11 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
     };
 
 // Filtermenu STATES
-  const [hastagOpen, setHastagOpen] = useState("")
+  const [isFilterOpen, setFilterOpen] = useState(false)
+  const [selectionList, setSelectionList] = useState([])
   const [sectionList, setSectionList] = useState([])
+  const [whichFilterIsOpen, setWhichFilterIsOpen] = useState("")
+
   const [gender, setGender] = useState("");
   const [brand, setBrand] = useState("brandList");
   const genders = ["férfi", "női", "gyerek", "unisex"]
@@ -208,6 +212,7 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
 
 // Filtermenu Cat
   let filterDataCathegory = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat")]
+  let cathegories = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat"), ...genders, ...brandList]
 
   const filteredProducts = mergedData.filter(val => {
     if (searchTerm === "" || filterIt(searchTerm, val)) {
@@ -222,10 +227,7 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
   function clearOutSearch() {
     setSearchTerm("")
     setPageNum(1)
-    setIsToWearOpen(false)
-    setIsGenderOpen(false)
-    setIsBrandOpen(false);
-    setIsSizeOpen(false);
+    setFilterOpen(false)
     setGender("")
     setSorting("")
     actions.router.set("/shop/")
@@ -242,25 +244,29 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
       "name": "gender",
       "hun": "Férfi, Női, Gyerek...",
       "icon": genderIcon,
-      "list": genders
+      "list": genders,
+      "section": genders
     },
     {
       "name": "equipment",
       "hun": "Felszerelés",
       "icon": felszerelesIcon,
-      "list": filterCat1ByCat2("Ruházat")
+      "list": filterCat1ByCat2("Felszerelés"),
+      "section": filterDataCathegory
     },
     {
       "name": "clothing",
       "hun": "Ruházat",
       "icon": jacketIcon,
-      "list": filterCat1ByCat2("Felszerelés")
+      "list": filterCat1ByCat2("Ruházat"),
+      "section": filterDataCathegory
     },
     {
       "name": "brand",
       "hun": "Márka",
       "icon": atomicLogo,
-      "list": brandList
+      "list": brandList,
+      "section": brandList
     },
   ];
 
@@ -269,96 +275,40 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
       <FilterBar>
         <DelButton onClick={clearOutSearch} ><ion-icon name="trash-outline" title="Minden preferencia törlése"></ion-icon></DelButton>
         <Search/>
-        {/* GENDER */}
-        {/* {filterButtons.map((el, index) => {
+        {/* Cleancode */}
+        {filterButtons.map((el, index) => {
           return (
-            <Button key={index} onClick={() => setHastagOpen(el.name)}>
+            <Button key={index} onClick={() => {
+                setSectionList(el.list); 
+                setWhichFilterIsOpen(el.name); 
+                setSelectionList(el.section); 
+                setFilterOpen(whichFilterIsOpen === el.name ? !isFilterOpen : true)}}>
               <img src={el.icon} alt={el.hun} />
             </Button>
           )
-        })} */}
-        <Button onClick={() => { 
-          setIsGenderOpen(!isGenderOpen); 
-          setIsEquipementOpen(false);
-          setIsToWearOpen(false); 
-          setIsBrandOpen(false);
-          // setIsSizeOpen(false);
-        }}><ion-icon name="male-female-outline"></ion-icon></Button>
-        {/* EQUIPEMENT */}
-        <Button onClick={() => { 
-          setIsEquipementOpen(!isEquipementOpen); 
-          setIsToWearOpen(false); 
-          setIsGenderOpen(false); 
-          setIsBrandOpen(false);
-          // setIsSizeOpen(false);
-          // setFilterDataCathegory(filterCat1ByCat2("Felszerelés")) 
-        }}><img src={felszerelesIcon} alt="Felszerelés" /></Button>
-        {/* CLOTHING */}
-        <Button onClick={() => { 
-          setIsToWearOpen(!isToWearOpen); 
-          setIsBrandOpen(false)
-          setIsGenderOpen(false); 
-          setIsEquipementOpen(false) 
-          // setIsSizeOpen(false);
-          // setFilterDataCathegory(filterCat1ByCat2("Ruházat")) 
-        }}><ion-icon name="shirt-outline" alt="Ruházat"></ion-icon></Button>
-        <Button onClick={() => { 
-          setIsBrandOpen(!isBrandOpen)
-          setIsToWearOpen(false); 
-          setIsGenderOpen(false); 
-          setIsEquipementOpen(false);
-          // setIsSizeOpen(false);
-        }}><img src={atomicLogo} alt="Márka" /></Button>
-        {/* <Button onClick={() => { 
-          setIsSizeOpen(!isSizeOpen);
-          setIsBrandOpen(false);
-          setIsToWearOpen(false); 
-          setIsGenderOpen(false); 
-          setIsEquipementOpen(false);
-        }}><img src={sizeLogo} alt="Méret" /></Button> */}
-        
+        })}
       </FilterBar>
-      {/* Filter Gender */}
-      {isGenderOpen?<FilterButton>
-        {genders.map((tag, index) => {
+      {/* Cleancode */}
+      {isFilterOpen?<FilterButton>
+        {sectionList.map((tag, index) => {
           return (
-            <GenderSection key={index} sorting={sorting} tag={tag} index={index} gender={gender} genders={genders} setGender={setGender} setPageNum={setPageNum} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+            <Section  
+              key={index} 
+              
+              selectionList={selectionList}
+              sorting={sorting} 
+              
+              tag={tag} 
+              index={index}
+
+              genders={genders}
+              
+              setPageNum={setPageNum} 
+              searchTerm={searchTerm} 
+              setSearchTerm={setSearchTerm} />
           )}
         )}
       </FilterButton>:null}
-      {/* Filter Clothing */}
-      {isToWearOpen?<FilterButton>
-        {filterCat1ByCat2("Ruházat").map((tag, index) => {
-          return (
-            <SectionGear key={index} sorting={sorting} tag={tag} index={index} gear={gear} filterDataCathegory={filterDataCathegory} setGear={setGear} setPageNum={setPageNum} searchTerm={searchTerm} setSearchTerm={setSearchTerm}  />
-              )}
-        )}
-      </FilterButton>:null}
-      {/* Filter Equipement */}
-      {isEquipementOpen?<FilterButton>
-        {filterCat1ByCat2("Felszerelés").map((tag, index) => {
-          return (
-            <SectionGear key={index} sorting={sorting} tag={tag} index={index} gear={gear} filterDataCathegory={filterDataCathegory} setGear={setGear} setPageNum={setPageNum} searchTerm={searchTerm} setSearchTerm={setSearchTerm}  />
-          )}
-        )}
-      </FilterButton>:null}
-      {/* Filter Brand */}
-      {isBrandOpen?<FilterButton>
-          {brandList.map((tag, index) => {
-            return (
-              <BrandSection key={index} sorting={sorting} tag={tag} index={index} brandList={brandList} brand={brand} setBrand={setBrand} setPageNum={setPageNum} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-            )}
-          )}
-      </FilterButton>:null}
-      {/* Filter SIZE */}
-      {/* {isSizeOpen?<SizeList>
-        {sizeList.map((tag, index) => {
-          return (
-            <SectionSize key={index} sorting={sorting} tag={tag} index={index} sizeList={sizeList} size={size} setSize={setSize} setPageNum={setPageNum} searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-          )
-          })
-        }
-      </SizeList>:null} */}
       <FilterSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} brandList={brandList}/>
       <Pagination sorting={sorting} searchTerm={searchTerm} handlePageClick={handlePageClick} pageNum={pageNum} totalPageNum={totalPageNum} />
       <Sorting action="/shop/search/" onInput={() => { 
