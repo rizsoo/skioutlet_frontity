@@ -1,33 +1,75 @@
-  import React from 'react'
+import React from 'react'
 import { generatePath } from 'react-router-dom';
 import Link from "@frontity/components/link"
+import { useState } from 'react'
 
-import Pagination from '@mui/material/Pagination';
-import PaginationItem from '@mui/material/PaginationItem';
-import { connect } from "frontity";
+import { connect, styled } from "frontity";
 
-const Pagi = ({ state, totalPageNum, searchTerm, pageNum, handlePageClick }) => {
+const Pagi = ({ state, sorting, totalPageNum, searchTerm, pageNum, handlePageClick }) => {
 
-  const data = state.source.get(state.router.link)
+  let siblingCount = 1;
+  let totalPageNumArray = Array.from(Array(totalPageNum + 1).keys()).slice(1);
 
-    // const location = state.router.link;
-    // const query = new URLSearchParams(location.search);
-    // const page = parseInt(query.get('page') || '1', 15);
+  const leftSiblingIndex = Math.max(pageNum - siblingCount, 1);
+  const rightSiblingIndex = Math.min(pageNum + siblingCount, totalPageNum);
+  const shouldShowLeftDots = leftSiblingIndex > 2;
+  const shouldShowRightDots = rightSiblingIndex < totalPageNum - 2;
+  const firstPageIndex = 1;
+  const lastPageIndex = totalPageNum;
+
+function specialPagination() {
+  if(totalPageNum < 8) {
+    return totalPageNumArray;
+  } else if (!shouldShowLeftDots && shouldShowRightDots) {
+    let leftItemCount = 3 + 2 * siblingCount;
+    let leftRange = Array.from(Array(leftItemCount + 1).keys()).slice(1);
+    return [...leftRange, "...", totalPageNum];
+  } else if (shouldShowLeftDots && !shouldShowRightDots) {
+      
+    let rightItemCount = 3 + 2 * siblingCount;
+    let rightRange = Array.from(Array(totalPageNum + 1).keys()).slice(totalPageNum - rightItemCount + 1);
+    return [firstPageIndex, "...", ...rightRange];
+  } else if (shouldShowLeftDots && shouldShowRightDots) {
+    let middleRange = Array.from(Array(rightSiblingIndex + 1).keys()).slice(leftSiblingIndex);
+    return [firstPageIndex, "...", ...middleRange, "...", lastPageIndex];
+  }
+}
+
   return (
-    <Pagination
-      className='paginationSettings topPagination'
-      onClick={handlePageClick}  
-      page={pageNum}
-      count={totalPageNum}
-      renderItem={(item) => (
-        <PaginationItem
-          component={Link}
-          link={generatePath(`/shop${item.page === 1 ? '' : `/page/${item.page}`}${searchTerm.length > 0 ? `?s=${searchTerm}` : ""}`)}
-          {...item}
-        />
-      )}
-    />
+    <Pagination>
+      {specialPagination().map((el, index) => {
+        return (
+          <Link key={index} link={`/shop/oldal/${el}${sorting == undefined ? "" : `?orderby=${sorting}`}${searchTerm.length > 0 ? `${sorting !== undefined ? "&" : "?"}s=${searchTerm}` : ""}`}>
+            <PageNumber 
+              onClick={handlePageClick}  
+              style={pageNum === el ?{backgroundColor: "#e1e1e1"} : null}>
+            {String(el)}
+            </PageNumber>
+          </Link>
+        )
+      })}
+    </Pagination>
   )
 }
+const Pagination = styled.div`
+  display: flex;
+  align-items: center;
+`
+const PageNumber = styled.p`
+  font-size: 0.875rem;
+  font-weight: 400;
+  min-width: 32px;
+  min-height: 32px;
+  padding: 0 6px;
+  margin: 0 3px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  &:hover {
+    background-color: #f1f1f1;
+  }
+`
 
 export default connect(Pagi);
