@@ -17,13 +17,11 @@ import ProductsMosaik from './ProductsMosaik'
 import Loading from "../components/loading";
 import Search from "./Search";
 import Pagination from "./Pagination"
+import Pagi from "./Pagi"
 import Hashtag from "./Hashtag"
 import FilterSearch from "./FilterSearch"
 
 import Section from "./Section"
-import GenderSection from "./SectionGender"
-import SectionGear from "./SectionGear"
-import BrandSection from "./SectionBrand"
 import SectionSize from "./SectionSize"
 
 const Shop = ({ state, actions }) => {
@@ -52,7 +50,6 @@ const Shop = ({ state, actions }) => {
     
     const queryResult = searchResult != null && searchResult.length > 0 ? searchResult.toLocaleLowerCase() : '';
     const queryLast = queryResult.includes("+") ? queryResult.split("+").join(" ") : queryResult;
-    console.log(queryLast);
     const queryArray = urldecode(queryResult).split(" ");
     // console.log(queryArray);
 
@@ -167,7 +164,7 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
 
 // Handle pagination click
   function handlePageClick(data) {
-    setPageNum(cutingURL(location));
+    // setPageNum(cutingURL(location));
     let getPaginationCount = Number(data.nativeEvent.originalTarget.textContent)
     setPageNum(getPaginationCount);
   }
@@ -204,11 +201,7 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
   const [sectionList, setSectionList] = useState([])
   const [whichFilterIsOpen, setWhichFilterIsOpen] = useState("")
 
-  const [gender, setGender] = useState("");
-  const [brand, setBrand] = useState("brandList");
   const genders = ["férfi", "női", "gyerek", "unisex"]
-  const [gear, setGear] = useState("");
-  const [size, setSize] = useState("");
 
 // Filtermenu Cat
   let filterDataCathegory = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat")]
@@ -228,7 +221,6 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
     setSearchTerm("")
     setPageNum(1)
     setFilterOpen(false)
-    setGender("")
     setSorting("")
     actions.router.set("/shop/")
     // getData()
@@ -236,8 +228,6 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
 
 // TOTAL PAGE NUMBER  
   let totalPageNum = Math.ceil(filteredProducts.length / 15);
-
-  // console.log(searchTerm);
 
   const filterButtons = [
     {
@@ -309,8 +299,22 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
           )}
         )}
       </FilterButton>:null}
-      <FilterSearch searchTerm={searchTerm} setSearchTerm={setSearchTerm} brandList={brandList}/>
-      <Pagination sorting={sorting} searchTerm={searchTerm} handlePageClick={handlePageClick} pageNum={pageNum} totalPageNum={totalPageNum} />
+      <FilterSearch 
+        searchTerm={searchTerm} 
+        setSearchTerm={setSearchTerm} 
+        brandList={brandList}/>
+      <Pagi 
+        totalPageNum={totalPageNum} 
+        sorting={sorting}
+        searchTerm={searchTerm} 
+        pageNum={pageNum} 
+        handlePageClick={handlePageClick} />
+      {/* <Pagination 
+        sorting={sorting} 
+        searchTerm={searchTerm} 
+        handlePageClick={handlePageClick} 
+        pageNum={pageNum} 
+        totalPageNum={totalPageNum} /> */}
       <Sorting action="/shop/search/" onInput={() => { 
         setSorting(event.target.value) 
         actions.router.set(searchLink.includes("?") ? `${searchLink}&orderby=${event.target.value}` : `${searchLink}search/?orderby=${event.target.value}`)
@@ -319,14 +323,17 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
         <option name="orderby" value="priceLow" defaultValue={orderNameOnly === "priceLow"}>Legdrágább</option>
         <option name="orderby" value="priceHigh" defaultValue={orderNameOnly === "priceHigh"}>Legolcsóbb</option>
       </Sorting>
-      {isLoaded ? 
-        <ProductsMosaik sorting={sorting} filteredProducts={filteredProducts} nextNum={nextNum}/> : <Loading/> }
+      {isLoaded?<ProductsMosaik 
+          sorting={sorting} 
+          filteredProducts={filteredProducts} 
+          nextNum={nextNum}/> : <Loading/> }
       <Pagination searchTerm={searchTerm} handlePageClick={handlePageClick} pageNum={pageNum} totalPageNum={totalPageNum} />
     </ShopContent>
   )
 }
 
 const ShopContent = styled.div`
+  padding-top: 10px;
 `;
 const FilterBar = styled.div`
   width: 100%;
@@ -334,10 +341,11 @@ const FilterBar = styled.div`
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
-  margin: 10px 0;
   padding: 10px 10px;
   border-radius: 10px;
+  margin-bottom: 10px;
   box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  background-color: white;
   s {
     font-size: 22px;
     box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.125);

@@ -34,11 +34,11 @@ const Header = () => {
                 <Link link="/rolunk">Rólunk</Link>
                 <Link link="/kapcsolat">Kapcsolat</Link>
               </Menu>}
-              {isMobile && !isMenuOpen ? null : <Socials onClick={() => setIsMenuOpen(false)}>
+              {isMobile && !isMenuOpen ? null : <Socialicons onClick={() => setIsMenuOpen(false)}>
                 <Link target="_blank" link="https://www.facebook.com/skioutletstore"><ion-icon name="logo-facebook"></ion-icon></Link>
                 <Link target="_blank" link="https://www.instagram.com/skioutletbudapest"><ion-icon name="logo-instagram"></ion-icon></Link>
                 <Link target="_blank" link="https://www.youtube.com/user/skioutlet"><ion-icon name="logo-youtube"></ion-icon></Link>
-              </Socials>}
+              </Socialicons>}
             </Navbar>
         </Navigator>
     </div>
@@ -100,7 +100,7 @@ const Navbar = styled.div`
   }
   
 `;
-const Socials = styled.div`
+const Socialicons = styled.div`
   display: flex;
   gap: 10px;
   padding: 0 10px;
