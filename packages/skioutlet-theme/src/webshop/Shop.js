@@ -165,7 +165,7 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
 let nextNum = pageNum * 15;
 
 // Filtering by cat/brand/sex
-  let brandList = filteredSearchcode(mergedData, 'brand').map(data => data.brand != undefined ? data.brand.toLowerCase() : "hiányos").map(brand => brand.includes(" ") ? brand.split(" ").join("") : brand).sort((a, b) => a.localeCompare(b));
+  let brandList = filteredSearchcode(mergedData, 'brand').map(data => data.brand != undefined ? data.brand.toLowerCase() : "hiányos").map(brand => brand.includes(" ") ? brand.split(" ").join("-") : brand).sort((a, b) => a.localeCompare(b));
 
   function filterCat1ByCat2(searchWord) {
     let result = filteredSearchcode(mergedData, 'cat1').map(data => {
@@ -180,11 +180,11 @@ let nextNum = pageNum * 15;
       let words = terms.split(" ");
       words = words.map(val => !val.includes("-") ? val.replace(/\"/g, "") : val.split("-").join(" ").replace(/\"/g, ""));
         const v = Object.values(a);
-        const brandNames = a.brand ? a.brand.toLowerCase() : "";
-        let isCat = words.some(el => brandList.includes(el)) ? words.some(el => el === brandNames) : true;
+        // const brandNames = a.brand ? a.brand.toLowerCase() : "";
+        // let isCat = words.some(el => brandList.includes(el)) ? words.some(el => el === brandNames) : true;
         // console.log(isCat);
         const f = JSON.stringify(v).toLowerCase();
-        let result = words.every(val => f.includes(val) && isCat)
+        let result = words.every(val => f.includes(val))
           return result;
     };
 
@@ -198,7 +198,7 @@ let nextNum = pageNum * 15;
 
 // Filtermenu Cat
   let filterDataCathegory = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat")]
-  let cathegories = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat"), ...genders, ...brandList]
+    console.log(brandList);
 
   const filteredProducts = mergedData.filter(val => {
     if (searchTerm === "" || filterIt(searchTerm, val)) {
@@ -255,22 +255,25 @@ let nextNum = pageNum * 15;
 
   return (
     <ShopContent>
-      <FilterBar>
-        <DelButton onClick={clearOutSearch} ><ion-icon name="trash-outline" title="Minden preferencia törlése"></ion-icon></DelButton>
-        <Search/>
-        {/* Cleancode */}
-        {filterButtons.map((el, index) => {
-          return (
-            <Button key={index} onClick={() => {
-                setSectionList(el.list); 
-                setWhichFilterIsOpen(el.name); 
-                setSelectionList(el.section); 
-                setFilterOpen(whichFilterIsOpen === el.name ? !isFilterOpen : true)}}>
-              <img src={el.icon} alt={el.hun} />
-            </Button>
-          )
-        })}
-      </FilterBar>
+      <FilterHeader>
+        <FilterBar>
+          <DelButton onClick={clearOutSearch} ><ion-icon name="trash-outline" title="Minden preferencia törlése"></ion-icon></DelButton>
+          <Search/>
+        </FilterBar>
+        <FilterBar>
+          {filterButtons.map((el, index) => {
+            return (
+              <SectionButton key={index} onClick={() => {
+                  setSectionList(el.list); 
+                  setWhichFilterIsOpen(el.name); 
+                  setSelectionList(el.section); 
+                  setFilterOpen(whichFilterIsOpen === el.name ? !isFilterOpen : true)}}>
+                <img src={el.icon} alt={el.hun} />
+              </SectionButton>
+            )
+          })}
+        </FilterBar>
+      </FilterHeader>
       {/* Cleancode */}
       {isFilterOpen?<FilterButton>
         {sectionList.map((tag, index) => {
@@ -303,12 +306,6 @@ let nextNum = pageNum * 15;
         pageNum={pageNum} 
         setPageNum={setPageNum}
       />  
-      {/* <Pagination 
-        sorting={sorting} 
-        searchTerm={searchTerm} 
-        handlePageClick={handlePageClick} 
-        pageNum={pageNum} 
-        totalPageNum={totalPageNum} /> */}
       <Sorting action="/shop/search/" onInput={() => { 
         setSorting(event.target.value) 
         actions.router.set(searchLink.includes("?") ? `${searchLink}&orderby=${event.target.value}` : `${searchLink}search/?orderby=${event.target.value}`)
@@ -321,6 +318,13 @@ let nextNum = pageNum * 15;
           sorting={sorting} 
           filteredProducts={filteredProducts} 
           nextNum={nextNum}/> : <Loading/> }
+      <Pagi 
+        totalPageNum={totalPageNum} 
+        sorting={sorting}
+        searchTerm={searchTerm} 
+        pageNum={pageNum} 
+        setPageNum={setPageNum}
+      /> 
     </ShopContent>
   )
 }
@@ -328,17 +332,25 @@ let nextNum = pageNum * 15;
 const ShopContent = styled.div`
   padding-top: 10px;
 `;
-const FilterBar = styled.div`
+const FilterHeader = styled.div`
+  display: flex;
+  gap: 10px;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+  background-color: white;
+  border-radius: 10px;
+  padding: 10px 10px;
+  margin-bottom: 10px;
   width: 100%;
+  @media (max-width: 600px) {
+    flex-direction: column;
+  }
+`
+const FilterBar = styled.div`
+  
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
-  padding: 10px 10px;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
-  background-color: white;
   s {
     font-size: 22px;
     box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.125);
@@ -346,8 +358,8 @@ const FilterBar = styled.div`
     cursor: pointer;
     margin: 0;
     background-color: #f9f9f9;
-    width: 40px;
-    height: 40px;     
+    min-width: 40px;
+    min-height: 40px;     
     display: flex;
     align-items: center;
     justify-content: center;
@@ -356,16 +368,28 @@ const FilterBar = styled.div`
       background-color: white;
       transition: ease 0.1s;  
     }
+    @media (max-width: 600px) {
+      min-width: calc(25% - 8px);
+      min-height: 56px;
+    }
   }
 `;
 const DelButton = styled.s`
   color: #ed2123;
+  @media (max-width: 600px) {
+    ion-icon {
+      font-size: 36px;
+    }
+  }
 `
-const Button = styled.s`
+const SectionButton = styled.s`
     img {
       height: 26px;
+      @media (max-width: 600px) {
+        height: 36px;
+      }
     }
-    position: realtive;    
+    position: realtive;   
 `
 const FilterButton = styled.div`
     display: flex;
@@ -401,6 +425,9 @@ const Sorting = styled.select`
     background-color: white;
     padding: 7px;
     border-radius: 5px;
+    @media (max-width: 600px) {
+      font-size: 1.4rem;
+    }
 `
 
 export default connect(Shop)

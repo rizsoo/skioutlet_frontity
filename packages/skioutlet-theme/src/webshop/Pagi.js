@@ -56,10 +56,10 @@ const Pagination = styled.div`
   align-items: center;
 `
 const PageNumber = styled.p`
-  font-size: 0.875rem;
-  font-weight: 400;
-  min-width: 32px;
-  min-height: 32px;
+  font-size: 1rem;
+  font-weight: 500;
+  min-width: 40px;
+  min-height: 40px;
   padding: 0 6px;
   margin: 0 3px;
   border-radius: 50%;
@@ -69,6 +69,9 @@ const PageNumber = styled.p`
   cursor: pointer;
   &:hover {
     background-color: #f1f1f1;
+  }
+  @media (max-width: 600px) {
+    font-size: 1.3rem;
   }
 `
 
