@@ -158,18 +158,11 @@ useEffect(() => {
   getIMGData()
   // getData()
   getData2()
-}, [info.link || handlePageClick])
+}, [info.link])
 
 let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista), 'img').filter(el => el.sku != undefined || el.sku != null)
-
-// Handle pagination click
-  function handlePageClick(data) {
-    // setPageNum(cutingURL(location));
-    let getPaginationCount = Number(data.nativeEvent.originalTarget.textContent)
-    setPageNum(getPaginationCount);
-  }
   
-  let nextNum = pageNum * 15;
+let nextNum = pageNum * 15;
 
 // Filtering by cat/brand/sex
   let brandList = filteredSearchcode(mergedData, 'brand').map(data => data.brand != undefined ? data.brand.toLowerCase() : "hiányos").map(brand => brand.includes(" ") ? brand.split(" ").join("") : brand).sort((a, b) => a.localeCompare(b));
@@ -308,7 +301,8 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
         sorting={sorting}
         searchTerm={searchTerm} 
         pageNum={pageNum} 
-        handlePageClick={handlePageClick} />
+        setPageNum={setPageNum}
+      />  
       {/* <Pagination 
         sorting={sorting} 
         searchTerm={searchTerm} 
@@ -327,7 +321,6 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
           sorting={sorting} 
           filteredProducts={filteredProducts} 
           nextNum={nextNum}/> : <Loading/> }
-      <Pagination searchTerm={searchTerm} handlePageClick={handlePageClick} pageNum={pageNum} totalPageNum={totalPageNum} />
     </ShopContent>
   )
 }

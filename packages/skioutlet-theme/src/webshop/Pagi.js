@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 import { connect, styled } from "frontity";
 
-const Pagi = ({ state, sorting, totalPageNum, searchTerm, pageNum, handlePageClick }) => {
+const Pagi = ({ state, sorting, totalPageNum, searchTerm, pageNum, handlePageClick, setPageNum }) => {
 
   let siblingCount = 1;
   let totalPageNumArray = Array.from(Array(totalPageNum + 1).keys()).slice(1);
@@ -41,7 +41,7 @@ function specialPagination() {
         return (
           <Link key={index} link={`/shop/oldal/${el}${sorting == undefined ? "" : `?orderby=${sorting}`}${searchTerm.length > 0 ? `${sorting !== undefined ? "&" : "?"}s=${searchTerm}` : ""}`}>
             <PageNumber 
-              onClick={handlePageClick}  
+              onClick={() => setPageNum(el)}  
               style={pageNum === el ?{backgroundColor: "#e1e1e1"} : null}>
             {String(el)}
             </PageNumber>
