@@ -1,5 +1,6 @@
 import { styled } from "frontity"
 
+
 const Search = () => (
     <SearchBarBox action="/shop/search/" method="get">
         {/* <input onKeyDown={handleKeyDown} onChange={event => setSearchTerm(event.target.value.toLocaleLowerCase())}  /> */}
@@ -14,7 +15,7 @@ const Search = () => (
 
 const SearchBarBox = styled.form`
     padding: 9px;
-    width: 250px;
+    
     background-color: #f9f9f9;
     color: #43454b;
     box-sizing: border-box;
@@ -36,6 +37,10 @@ const SearchBarBox = styled.form`
         font-size: 16px !important;
         cursor: pointer;
     }
+    @media (max-width: 600px) {
+        height: 56px;
+        width: calc(75% - 5px)
+      }
 `
 const SearchBar = styled.input`
     width: 100%;
