@@ -330,7 +330,10 @@ let nextNum = pageNum * 15;
 }
 
 const ShopContent = styled.div`
-  padding-top: 10px;
+  padding-top: 15px;
+  @media (max-width: 600px) {
+    padding-top: 20px;
+  }
 `;
 const FilterHeader = styled.div`
   display: flex;
@@ -369,9 +372,12 @@ const FilterBar = styled.div`
       transition: ease 0.1s;  
     }
     @media (max-width: 600px) {
-      min-width: calc(25% - 8px);
-      min-height: 56px;
+      min-width: calc(25% - 10px);
+      min-height: 60px;
     }
+  }
+  @media (max-width: 600px) {
+    gap: 12px;
   }
 `;
 const DelButton = styled.s`

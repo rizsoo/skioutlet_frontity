@@ -34,13 +34,17 @@ const SearchBarBox = styled.form`
         padding: 0 5px;
     }
     ion-icon {
-        font-size: 16px !important;
+        font-size: 20px !important;
+        --ionicon-stroke-width: 50px;
         cursor: pointer;
+        @media (max-width: 600px) {
+            font-size: 30px !important;
+        }
     }
     @media (max-width: 600px) {
-        height: 56px;
+        height: 60px;
         width: calc(75% - 5px)
-      }
+    }
 `
 const SearchBar = styled.input`
     width: 100%;
@@ -48,6 +52,10 @@ const SearchBar = styled.input`
     -webkit-appearance: none;
     border: 0;
     background-color: #f9f9f9;
+    font-size: 1em;
+    @media (max-width: 600px) {
+        font-size: 1.2em;
+    }
 `
 
 export default Search;
