@@ -158,7 +158,7 @@ useEffect(() => {
   getIMGData()
   // getData()
   getData2()
-}, [info.link])
+}, [info.link || handlePageClick])
 
 let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista), 'img').filter(el => el.sku != undefined || el.sku != null)
 
