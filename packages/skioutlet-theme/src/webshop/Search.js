@@ -1,5 +1,5 @@
 import { styled } from "frontity"
-
+import SearchIcon from "../img/search.png"
 
 const Search = () => (
     <SearchBarBox action="/shop/search/" method="get">
@@ -9,13 +9,12 @@ const Search = () => (
             placeholder={"Termék keresése..."}
             name="s" 
         />
-        <button type="submit"><ion-icon name="search-outline"></ion-icon></button>
+        <button type="submit"><img src={SearchIcon}></img></button>
     </SearchBarBox>
 );
 
 const SearchBarBox = styled.form`
     padding: 9px;
-    
     background-color: #f9f9f9;
     color: #43454b;
     box-sizing: border-box;
@@ -33,20 +32,21 @@ const SearchBarBox = styled.form`
         background-color: unset;
         padding: 0 5px;
     }
-    ion-icon {
-        font-size: 20px !important;
-        --ionicon-stroke-width: 50px;
+    button {
+        padding: 0 !important;
+    }
+    img {
+        height: 20px;
+        max-width: 20px;
         cursor: pointer;
         @media (max-width: 600px) {
-            font-size: 30px !important;
+            height: 32px;
+            max-width: 32px;
         }
     }
     @media (max-width: 600px) {
         height: 60px;
-        width: calc(75% - 5px)
-        ion-icon {
-            color: black !important;
-        }
+        width: calc(75% - 5px);
     }
 `
 const SearchBar = styled.input`

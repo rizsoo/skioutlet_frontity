@@ -89,15 +89,22 @@ const SubButton = styled.s`
     position: relative; 
     img {
       height: 30px;
-      wifth: auto;
+      width: auto;
       position: absolute;
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%);
+      @media (max-width: 600px) {
+        height: 38px; 
+      }
     }
     :hover {
       transform: scale(1.08);
       transition: ease 0.1s;
+    }
+    @media (max-width: 600px) {
+      width: 60px;
+      height: 60px; 
     }
 `
 

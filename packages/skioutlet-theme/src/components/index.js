@@ -18,8 +18,9 @@ import Versenyek from "./versenyek"
 const Root = ({ state }) => {
   const data = state.source.get(state.router.link)
   // console.log(data);
-  // console.log(state);
-  const [isHomepage, setIsHomepage] = useState(state.router.link === "/" ? true : false)
+  console.log(data);
+  const [backGroundColor, setBackGroundColor] = useState("white");
+  // const [isHomepage, setIsHomepage] = useState(state.router.link === "/" ? true : false)
   const [postData, setPostData] = useState(data)
   const [metaTitle, setMetaTitle] = useState("");
 
@@ -28,9 +29,17 @@ const Root = ({ state }) => {
       el[1] === url ? setMetaTitle(`- ${el[0]}`) : null
     })
   }
-
+  
+  function getSiteColor() {
+    if(state.router.link === "/") {
+      setBackGroundColor("#ed2123")
+    } else if(data.isShop === true) {
+      setBackGroundColor("#f1f1f1")
+    }
+  }
   useEffect(() => {
-    setIsHomepage(state.router.link === "/" ? true : false)
+    // setIsHomepage(state.router.link === "/" ? true : false)
+    getSiteColor()
     isMetaGood()
   }, [state.router.link])
 
@@ -68,7 +77,7 @@ const Root = ({ state }) => {
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
       </Head>
       <Header />
-      <Main isHomepage={isHomepage} postData={postData}>
+      <Main backGroundColor={backGroundColor} postData={postData}>
         <Switch>
           <Loading when={data.isFetching} />
           <Error when={data.isError} />
@@ -125,7 +134,7 @@ const Main = styled.main`
   }
   @media (max-width: 600px) {
     padding: 0 20px 20px 20px;
-    background-color: ${(props) => (props.isHomepage ? "#ed2123" : "white")};
+    background-color: ${(props) => (props.backGroundColor)};
   }
 `;
 
