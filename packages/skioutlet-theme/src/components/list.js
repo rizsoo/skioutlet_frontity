@@ -110,7 +110,7 @@ const Title = styled.h2`
     color: white;
     font-size: 1.7em;
     background-color: transparent;
-    
+    padding: 0;
     font-weight: 700;
   }
 `

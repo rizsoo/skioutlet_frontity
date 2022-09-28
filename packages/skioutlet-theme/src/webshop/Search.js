@@ -44,6 +44,9 @@ const SearchBarBox = styled.form`
     @media (max-width: 600px) {
         height: 60px;
         width: calc(75% - 5px)
+        ion-icon {
+            color: black !important;
+        }
     }
 `
 const SearchBar = styled.input`

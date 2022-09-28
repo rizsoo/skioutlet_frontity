@@ -170,21 +170,27 @@ let nextNum = pageNum * 15;
   function filterCat1ByCat2(searchWord) {
     let result = filteredSearchcode(mergedData, 'cat1').map(data => {
       if(data.cat2 === searchWord && data.cat1 != undefined && data.cat2 != undefined) {
-        return String(data.cat1)
+        return String(data.cat1).toLowerCase()
     }}).sort((a, b) => a.localeCompare(b));
     return result.filter(el => el != undefined)
   }
 
+  const genders = ["férfi", "női", "gyerek", "unisex"]
+
   // Get each word
+    let allCathegory = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat"), ...brandList]
+    console.log(allCathegory);
     function filterIt(terms, a) {
       let words = terms.split(" ");
       words = words.map(val => !val.includes("-") ? val.replace(/\"/g, "") : val.split("-").join(" ").replace(/\"/g, ""));
         const v = Object.values(a);
-        // const brandNames = a.brand ? a.brand.toLowerCase() : "";
-        // let isCat = words.some(el => brandList.includes(el)) ? words.some(el => el === brandNames) : true;
-        // console.log(isCat);
+        const brandName = a.brand ? a.brand.toLowerCase() : "";
+        const catName = a.cat1 ? a.cat1.toLowerCase() : "";
+        let catNames = [brandName, catName];
+        let isCat = words.some(el => allCathegory.includes(el)) ? words.some(el => catNames.some(cat => cat === el)) : true;
+        console.log(isCat);
         const f = JSON.stringify(v).toLowerCase();
-        let result = words.every(val => f.includes(val))
+        let result = words.every(val => f.includes(val) && isCat)
           return result;
     };
 
@@ -194,11 +200,9 @@ let nextNum = pageNum * 15;
   const [sectionList, setSectionList] = useState([])
   const [whichFilterIsOpen, setWhichFilterIsOpen] = useState("")
 
-  const genders = ["férfi", "női", "gyerek", "unisex"]
 
 // Filtermenu Cat
   let filterDataCathegory = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat")]
-    console.log(brandList);
 
   const filteredProducts = mergedData.filter(val => {
     if (searchTerm === "" || filterIt(searchTerm, val)) {
@@ -333,6 +337,7 @@ const ShopContent = styled.div`
   padding-top: 15px;
   @media (max-width: 600px) {
     padding-top: 20px;
+    
   }
 `;
 const FilterHeader = styled.div`
