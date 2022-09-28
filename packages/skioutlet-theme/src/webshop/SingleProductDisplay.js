@@ -119,9 +119,9 @@ useEffect(() => {
           <div>
             <b>Kategóriák</b>
             <CatListColumn><Wsd>
-              <Link link={`https://skioutlet.hu/shop/search/?s=${prodCat1}`}>{prodCat1}</Link> 
-              , <Link link={`https://skioutlet.hu/shop/search/?s=${prodBrand}`}>{prodBrand}</Link>
-              , <Link link={`https://skioutlet.hu/shop/search/?s=${prodGender}`}>{prodGender}</Link>
+              <Link link={`/shop/search/?s=${prodCat1}`}>{prodCat1}</Link> 
+              , <Link link={`/shop/search/?s=${prodBrand}`}>{prodBrand}</Link>
+              , <Link link={`/shop/search/?s=${prodGender}`}>{prodGender}</Link>
               </Wsd></CatListColumn>
           </div>
         </SingleProductDetails>

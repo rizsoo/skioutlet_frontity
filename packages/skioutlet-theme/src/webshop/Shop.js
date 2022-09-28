@@ -174,7 +174,7 @@ let nextNum = pageNum * 15;
 
   // Get each word
     let allCathegory = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat"), ...brandList]
-    console.log(allCathegory);
+
     function filterIt(terms, a) {
       let words = terms.split(" ");
       words = words.map(val => !val.includes("-") ? val.replace(/\"/g, "") : val.split("-").join(" ").replace(/\"/g, ""));
