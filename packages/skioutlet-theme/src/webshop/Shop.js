@@ -70,11 +70,6 @@ const Shop = ({ state, actions }) => {
     const [isLoaded, setIsLoaded] = useState(false)
     const [sorting, setSorting] = useState(orderNameOnly);
 
-    const [isGenderOpen, setIsGenderOpen] = useState(false)
-    const [isEquipementOpen, setIsEquipementOpen] = useState(false)
-    const [isToWearOpen, setIsToWearOpen] = useState(false)
-    const [isBrandOpen, setIsBrandOpen] = useState(false)
-    const [isSizeOpen, setIsSizeOpen] = useState(false)
 
 //Get IMG data
 function getIMGData() {
