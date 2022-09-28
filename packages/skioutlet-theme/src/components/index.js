@@ -20,7 +20,6 @@ const Root = ({ state }) => {
   // console.log(data);
   // console.log(state);
   const [isHomepage, setIsHomepage] = useState(state.router.link === "/" ? true : false)
-  const [isShopPage, setIsShopPage] = useState(state.router.link === "/shop/" ? true : false)
   const [postData, setPostData] = useState(data)
   const [metaTitle, setMetaTitle] = useState("");
 
@@ -32,7 +31,6 @@ const Root = ({ state }) => {
 
   useEffect(() => {
     setIsHomepage(state.router.link === "/" ? true : false)
-    setIsShopPage(state.router.link.includes("/shop/") ? true : false)
     isMetaGood()
   }, [state.router.link])
 
@@ -70,7 +68,7 @@ const Root = ({ state }) => {
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
       </Head>
       <Header />
-      <Main isHomepage={isHomepage} isShopPage={isShopPage} postData={postData}>
+      <Main isHomepage={isHomepage} postData={postData}>
         <Switch>
           <Loading when={data.isFetching} />
           <Error when={data.isError} />
@@ -94,6 +92,7 @@ const Main = styled.main`
   padding: 0 10px 10px 10px;
   margin: auto;
   min-height: 50vh;
+  
   img {
     max-width: 100%;
   }
@@ -127,7 +126,6 @@ const Main = styled.main`
   @media (max-width: 600px) {
     padding: 0 20px 20px 20px;
     background-color: ${(props) => (props.isHomepage ? "#ed2123" : "white")};
-    background-color: ${(props) => (props.isShopPage ? "#f1f1f1" : "white")};
   }
 `;
 
