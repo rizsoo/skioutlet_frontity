@@ -16,9 +16,7 @@ import filteredSearchcode from './filter_by_color_function';
 import ProductsMosaik from './ProductsMosaik'
 import Loading from "../components/loading";
 import Search from "./Search";
-import Pagination from "./Pagination"
 import Pagi from "./Pagi"
-import Hashtag from "./Hashtag"
 import FilterSearch from "./FilterSearch"
 
 import Section from "./Section"
@@ -69,8 +67,7 @@ const Shop = ({ state, actions }) => {
     const [searchTerm, setSearchTerm] = useState(urldecode(queryLast))
     const [isLoaded, setIsLoaded] = useState(false)
     const [sorting, setSorting] = useState(orderNameOnly);
-
-
+    
 //Get IMG data
 function getIMGData() {
   fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/keszlet.csv")
@@ -128,25 +125,24 @@ function getData2() {
     .then(res => res.url)
     .then((response) => {
       Papa.parse(response, {
-        encoding: "UTF-8",
+        skipEmptyLines: true,
+        delimiter: "\t",
         download: true,
         dynamicTyping: true,
         header: true,
       transformHeader: function(h, i) {
         let header = [ "sku", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size" ]
         h = header[i]
-        // console.log(h);
         return h
       },
       complete: function(results) {
-        let data = results.data.filter(prod => prod.stock > 0);
+        let data = results.data.filter(prod => Number(prod.stock.split(",").shift()) > 0);
         setWebarlista(data);
         setIsLoaded(true)
       }
       }) 
     })
 }   
-// console.log(webarlista);
 
 // USEeFFECT
 useEffect(() => {
