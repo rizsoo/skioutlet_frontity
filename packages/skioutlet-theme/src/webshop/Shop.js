@@ -143,12 +143,36 @@ function getData2() {
       }) 
     })
 }   
+function getData() {
+  fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista.csv")
+    .then(res => res.url)
+    .then((response) => {
+      Papa.parse(response, {
+        skipEmptyLines: true,
+        // delimiter: "\t",
+        download: true,
+        dynamicTyping: true,
+        header: true,
+      transformHeader: function(h, i) {
+        let header = [ "sku", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size" ]
+        h = header[i]
+        return h
+      },
+      complete: function(results) {
+        let data = results.data.filter(prod => prod.stock > 0);
+        setWebarlista(data);
+        setIsLoaded(true)
+      }
+      }) 
+    })
+}   
+
 
 // USEeFFECT
 useEffect(() => {
   getIMGData()
   // getData()
-  getData2()
+  getData()
 }, [info.link])
 
 let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista), 'img').filter(el => el.sku != undefined || el.sku != null)
