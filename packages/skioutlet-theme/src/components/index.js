@@ -33,6 +33,7 @@ const Root = ({ state }) => {
     setIsShopPage(data.isShop)
     setIsHomepage(state.router.link === "/" ? true : false)
     isMetaGood()
+    setPostData(data)
   }, [state.router.link])
 
   const url = data.link;

@@ -180,10 +180,11 @@ let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista),
 let nextNum = pageNum * 15;
 
 // Filtering by cat/brand/sex
-  let brandList = filteredSearchcode(mergedData, 'brand').map(data => data.brand != undefined ? data.brand.toLowerCase() : "hiányos").map(brand => brand.includes(" ") ? brand.split(" ").join("-") : brand).sort((a, b) => a.localeCompare(b));
+  let brandList = filteredSearchcode(mergedData, 'brand').filter(data=> data.brand != undefined).map(data => data.brand.toLowerCase()).map(brand => brand.includes(" ") ? brand.split(" ").join("-") : brand).sort((a, b) => a.localeCompare(b));
 
   function filterCat1ByCat2(searchWord) {
     let result = filteredSearchcode(mergedData, 'cat1').map(data => {
+      
       if(data.cat2 === searchWord && data.cat1 != undefined && data.cat2 != undefined) {
         return String(data.cat1).toLowerCase()
     }}).sort((a, b) => a.localeCompare(b));
@@ -203,7 +204,6 @@ let nextNum = pageNum * 15;
         const catName = a.cat1 ? a.cat1.toLowerCase() : "";
         let catNames = [brandName, catName];
         let isCat = words.some(el => allCathegory.includes(el)) ? words.some(el => catNames.some(cat => cat === el)) : true;
-        console.log(isCat);
         const f = JSON.stringify(v).toLowerCase();
         let result = words.every(val => f.includes(val) && isCat)
           return result;
