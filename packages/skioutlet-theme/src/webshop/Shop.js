@@ -173,7 +173,6 @@ function getData() {
 // USEeFFECT
 useEffect(() => {
   getIMGData()
-  // getData()
   getData2()
 }, [info.link])
 

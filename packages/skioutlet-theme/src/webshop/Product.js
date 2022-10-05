@@ -100,11 +100,7 @@ function Product({ state }) {
         })
     }   
 
-// console.log(webarlista);
-// console.log(imgData);
-
     useEffect(() => {
-      // getData()
       getData2()
       getIMGData()
     }, [])
