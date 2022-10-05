@@ -112,7 +112,7 @@ useEffect(() => {
           {result.map((prod, index) => 
             <SizeListColumn key={index}>
               {prod.size ? <Asd>{prod.size}</Asd> : null}
-              <Dsa>{prod.stock} darab</Dsa>
+              <Dsa>{prod.stock.split(",").shift()} darab</Dsa>
             </SizeListColumn>
           )}
           </ProductSizeList>
