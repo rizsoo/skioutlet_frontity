@@ -168,7 +168,7 @@ function getData() {
       }) 
     })
 }   
-
+//asd
 
 // USEeFFECT
 useEffect(() => {

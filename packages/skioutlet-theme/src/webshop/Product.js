@@ -99,7 +99,7 @@ function Product({ state }) {
           }) 
         })
     }   
-
+//asd
     useEffect(() => {
       getData2()
       getIMGData()
