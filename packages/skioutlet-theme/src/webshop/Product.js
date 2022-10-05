@@ -92,7 +92,6 @@ function Product({ state }) {
             return h
           },
           complete: function(results) {
-            console.log(results.data);
             let data = results.data.filter(prod => Number(prod.stock.split(",").shift()) > 0);
             setWebarlista(data);
             setIsLoaded(true)
@@ -110,8 +109,8 @@ function Product({ state }) {
       getIMGData()
     }, [])
 
-    let result = arrayMergeByKey("sku", imgData, webarlista).filter(el => String(el.img).toLowerCase() === url ? el : null)
-
+    let result = arrayMergeByKey("sku", imgData, webarlista).filter(el => String(el.img).toLowerCase() === url && el.title ? el : null)
+    
   return (
     <div>
       {isLoaded ? <SingleProductDisplay result={result} theProduct={theProduct} /> :  <Loading/>}

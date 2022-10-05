@@ -138,6 +138,7 @@ function getData2() {
       },
       complete: function(results) {
         let data = results.data.filter(prod => Number(prod.stock.split(",").shift()) > 0);
+        console.log(data);
         setWebarlista(data);
         setIsLoaded(true)
       }
@@ -176,8 +177,8 @@ useEffect(() => {
   getData2()
 }, [info.link])
 
-let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista), 'img').filter(el => el.sku != undefined || el.sku != null)
-  
+let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista).filter(el => el.title), 'img').filter(el => el.sku != undefined || el.sku != null)
+console.log(filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista), 'img'));
 let nextNum = pageNum * 15;
 
 // Filtering by cat/brand/sex
