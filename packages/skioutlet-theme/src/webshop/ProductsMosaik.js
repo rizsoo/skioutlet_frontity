@@ -2,7 +2,7 @@ import React from 'react'
 import Item from './Item'
 import { connect, styled } from "frontity"
 
-const ProductsMosaik = ({ sorting, filteredProducts, nextNum }) => {
+const ProductsMosaik = ({ sorting, filteredProducts, nextNum, size }) => {
 
   function renderSorting(val) {
     if(val === "name") {return filteredProducts.sort((a, b) => a.title > b.title ? 1 : -1)
@@ -16,7 +16,7 @@ const ProductsMosaik = ({ sorting, filteredProducts, nextNum }) => {
             {filteredProducts.length > 0 ? 
             renderSorting(sorting).filter((item, i) => 
             i >= nextNum - 15 & i < nextNum).map((prod, index) => 
-            <Item key={index} prod={prod} />) : <h2 className='sorry'>Nem található termék...</h2>}
+            <Item key={index} prod={prod} size={size} />) : <h2 className='sorry'>Nem található termék...</h2>}
         </ProductsList>
   )
 }

@@ -138,36 +138,36 @@ function getData2() {
       },
       complete: function(results) {
         let data = results.data.filter(prod => Number(prod.stock.split(",").shift()) > 0);
-        console.log(data);
+        
         setWebarlista(data);
         setIsLoaded(true)
       }
       }) 
     })
 }   
-function getData() {
-  fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista.csv")
-    .then(res => res.url)
-    .then((response) => {
-      Papa.parse(response, {
-        skipEmptyLines: true,
-        // delimiter: "\t",
-        download: true,
-        dynamicTyping: true,
-        header: true,
-      transformHeader: function(h, i) {
-        let header = [ "sku", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size" ]
-        h = header[i]
-        return h
-      },
-      complete: function(results) {
-        let data = results.data.filter(prod => prod.stock > 0);
-        setWebarlista(data);
-        setIsLoaded(true)
-      }
-      }) 
-    })
-}   
+// function getData() {
+//   fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista.csv")
+//     .then(res => res.url)
+//     .then((response) => {
+//       Papa.parse(response, {
+//         skipEmptyLines: true,
+//         // delimiter: "\t",
+//         download: true,
+//         dynamicTyping: true,
+//         header: true,
+//       transformHeader: function(h, i) {
+//         let header = [ "sku", "title", "brand", "", "cat1", "cat2", "price", "saleprice", "isonsale", "stock", "size" ]
+//         h = header[i]
+//         return h
+//       },
+//       complete: function(results) {
+//         let data = results.data.filter(prod => prod.stock > 0);
+//         setWebarlista(data);
+//         setIsLoaded(true)
+//       }
+//       }) 
+//     })
+// }   
 
 // USEeFFECT
 useEffect(() => {
@@ -176,7 +176,7 @@ useEffect(() => {
 }, [info.link])
 
 let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista).filter(el => el.title), 'img').filter(el => el.sku != undefined || el.sku != null)
-console.log(filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista), 'img'));
+
 let nextNum = pageNum * 15;
 
 // Filtering by cat/brand/sex
@@ -196,16 +196,22 @@ let nextNum = pageNum * 15;
   // Get each word
     let allCathegory = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat"), ...brandList]
 
-    function filterIt(terms, a) {
+    function filterIt(terms, a, size) {
       let words = terms.split(" ");
       words = words.map(val => !val.includes("-") ? val.replace(/\"/g, "") : val.split("-").join(" ").replace(/\"/g, ""));
         const v = Object.values(a);
+
         const brandName = a.brand ? a.brand.toLowerCase() : "";
+
         const catName = a.cat1 ? a.cat1.toLowerCase() : "";
         let catNames = [brandName, catName];
         let isCat = words.some(el => allCathegory.includes(el)) ? words.some(el => catNames.some(cat => cat === el)) : true;
+
+        const sizeOfProduct = String(a.size)
+        let isSize = size != "" ? size.some(el => el === sizeOfProduct) : true;
+
         const f = JSON.stringify(v).toLowerCase();
-        let result = words.every(val => f.includes(val) && isCat)
+        let result = words.every(val => f.includes(val) && isCat && isSize)
           return result;
     };
 
@@ -214,13 +220,14 @@ let nextNum = pageNum * 15;
   const [selectionList, setSelectionList] = useState([])
   const [sectionList, setSectionList] = useState([])
   const [whichFilterIsOpen, setWhichFilterIsOpen] = useState("")
+  const [size, setSize] = useState("")
 
 
 // Filtermenu Cat
   let filterDataCathegory = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat")]
 
   const filteredProducts = mergedData.filter(val => {
-    if (searchTerm === "" || filterIt(searchTerm, val) || size.every(el => el === val.size) ) {
+    if (searchTerm === "" || filterIt(searchTerm, val, size)) {
       return val
     } 
   });
@@ -294,6 +301,7 @@ let nextNum = pageNum * 15;
                   setSectionList(el.list); 
                   setWhichFilterIsOpen(el.name); 
                   setSelectionList(el.section); 
+                  setSize([])
                   setFilterOpen(whichFilterIsOpen === el.name ? !isFilterOpen : true)}}>
                 <img src={el.icon} alt={el.hun} />
               </SectionButton>
@@ -321,7 +329,7 @@ let nextNum = pageNum * 15;
                 searchTerm={searchTerm} 
                 setSearchTerm={setSearchTerm} />
             )
-          } else return (
+          } else if (searchTerm != "") { return (
               <SectionSize
                 tag={tag}
                 index={index} 
@@ -330,7 +338,9 @@ let nextNum = pageNum * 15;
                 setSize={setSize} 
                 setPageNum={setPageNum}
                  />
-            )
+            )} else if ( index === 1 ) { return (
+              <p>Válasszon egy termékkategóriát!</p>
+            )}
           }
         )}
       </FilterButton>:null}
@@ -355,6 +365,7 @@ let nextNum = pageNum * 15;
       </Sorting>
       {isLoaded?<ProductsMosaik 
           sorting={sorting} 
+          size={size}
           filteredProducts={filteredProducts} 
           nextNum={nextNum}/> : <Loading/> }
       <Pagi 
@@ -389,7 +400,6 @@ const FilterHeader = styled.div`
   }
 `
 const FilterBar = styled.div`
-  
   display: flex;
   flex-wrap: wrap;
   gap: 10px;

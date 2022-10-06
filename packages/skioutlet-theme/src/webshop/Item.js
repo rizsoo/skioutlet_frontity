@@ -12,7 +12,7 @@ function currencyConverter(number) {
   return finalPrice;
 }
 
-const Item = ({ state, prod }) => {
+const Item = ({ state, prod, size }) => {
   const info = state.source.get(state.router.link)
   let prodTitle = String(prod.title);
   let prodBrand = String(prod.brand);
@@ -33,7 +33,7 @@ function setSource() {
 
 useEffect(() => {
   setSource();
-}, [info])
+}, [info, size])
 
 
   return (
