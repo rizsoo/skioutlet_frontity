@@ -21,10 +21,11 @@ function Product({ state }) {
   const url = res.id;
 
   function getIMGData() {
-    fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/keszlet.csv")
+    fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/keresokod_utf8.csv")
       .then(res => res.url)
       .then((response) => {
         Papa.parse(response, {
+          skipEmptyLines: true,
           encoding: "UTF-8",
           download: true,
           dynamicTyping: true,
@@ -74,10 +75,12 @@ function Product({ state }) {
 //       })
 //     }
     function getData2() {
-      fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista.csv")
+      fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_utf8.csv")
         .then(res => res.url)
         .then((response) => {
           Papa.parse(response, {
+            skipEmptyLines: true,
+            delimiter: "\t",
             encoding: "UTF-8",
             download: true,
             dynamicTyping: true,
@@ -89,7 +92,7 @@ function Product({ state }) {
             return h
           },
           complete: function(results) {
-            let data = results.data.filter(prod => prod.stock > 0);
+            let data = results.data.filter(prod => Number(prod.stock.split(",").shift()) > 0);
             setWebarlista(data);
             setIsLoaded(true)
           }
@@ -97,17 +100,13 @@ function Product({ state }) {
         })
     }   
 
-// console.log(webarlista);
-// console.log(imgData);
-
     useEffect(() => {
-      // getData()
       getData2()
       getIMGData()
     }, [])
 
-    let result = arrayMergeByKey("sku", imgData, webarlista).filter(el => String(el.img).toLowerCase() === url ? el : null)
-
+    let result = arrayMergeByKey("sku", imgData, webarlista).filter(el => String(el.img).toLowerCase() === url && el.title ? el : null)
+    
   return (
     <div>
       {isLoaded ? <SingleProductDisplay result={result} theProduct={theProduct} /> :  <Loading/>}

@@ -70,10 +70,11 @@ const Shop = ({ state, actions }) => {
     
 //Get IMG data
 function getIMGData() {
-  fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/keszlet.csv")
+  fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/keresokod_utf8.csv")
     .then(res => res.url)
     .then((response) => {
       Papa.parse(response, {
+        skipEmptyLines: true,
         encoding: "UTF-8",
         download: true,
         dynamicTyping: true,
@@ -121,7 +122,7 @@ function getIMGData() {
 //       })
 // }   
 function getData2() {
-  fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista.csv")
+  fetch("https://wp.skioutlet.hu/wp-content/uploads/2022/09/webarlista_utf8.csv")
     .then(res => res.url)
     .then((response) => {
       Papa.parse(response, {
@@ -137,6 +138,7 @@ function getData2() {
       },
       complete: function(results) {
         let data = results.data.filter(prod => Number(prod.stock.split(",").shift()) > 0);
+        console.log(data);
         setWebarlista(data);
         setIsLoaded(true)
       }
@@ -167,16 +169,14 @@ function getData() {
     })
 }   
 
-
 // USEeFFECT
 useEffect(() => {
   getIMGData()
-  // getData()
-  getData()
+  getData2()
 }, [info.link])
 
-let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista), 'img').filter(el => el.sku != undefined || el.sku != null)
-  
+let mergedData = filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista).filter(el => el.title), 'img').filter(el => el.sku != undefined || el.sku != null)
+console.log(filteredSearchcode(arrayMergeByKey("sku", imgData, webarlista), 'img'));
 let nextNum = pageNum * 15;
 
 // Filtering by cat/brand/sex

@@ -7,6 +7,7 @@ import Link from "@frontity/components/link"
 
 let SingleProductDisplay = ( { result, theProduct } ) => {
   //data
+  console.log(result);
   let prodTitle = String(result.map(prod => prod.title).shift());
   let prodImg = String(result.map(prod => prod.img).pop());
   let prodBrand = String(result.map(prod => prod.brand).pop());
@@ -112,7 +113,7 @@ useEffect(() => {
           {result.map((prod, index) => 
             <SizeListColumn key={index}>
               {prod.size ? <Asd>{prod.size}</Asd> : null}
-              <Dsa>{prod.stock} darab</Dsa>
+              <Dsa>{prod.stock != null ? prod.stock.split(",").shift() : ""} darab</Dsa>
             </SizeListColumn>
           )}
           </ProductSizeList>
