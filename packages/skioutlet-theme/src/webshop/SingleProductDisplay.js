@@ -143,7 +143,7 @@ const ProductContent = styled.div`
   img {
     max-width: 350px;
     width: calc(100vw - 20px);
-    
+    height: fit-content;
     @media (max-width: 600px) {
       max-width: 100%;
     }
