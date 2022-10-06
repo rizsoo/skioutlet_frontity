@@ -2,7 +2,7 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { connect, styled } from "frontity"
 
-const Section = ( { actions, selectionList, sorting, tag, index, genders, setPageNum, searchTerm, setSearchTerm } ) => {
+const Section = ( { actions, selectionList, sorting, tag, index, setPageNum, searchTerm, setSearchTerm } ) => {
   
   const [isHighClass, setHighClass] = useState(false)
   const [subIcon, setSubIcon] = useState([])

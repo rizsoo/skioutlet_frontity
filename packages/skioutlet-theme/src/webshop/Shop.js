@@ -190,7 +190,7 @@ let nextNum = pageNum * 15;
     }}).sort((a, b) => a.localeCompare(b));
     return result.filter(el => el != undefined)
   }
-
+  
   const genders = ["férfi", "női", "gyerek", "unisex"]
 
   // Get each word
@@ -220,13 +220,13 @@ let nextNum = pageNum * 15;
   let filterDataCathegory = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat")]
 
   const filteredProducts = mergedData.filter(val => {
-    if (searchTerm === "" || filterIt(searchTerm, val)) {
+    if (searchTerm === "" || filterIt(searchTerm, val) || size.every(el => el === val.size) ) {
       return val
     } 
   });
 
   // Get available sizes
-  // let sizeList = filteredSearchcode(filteredProducts, "size").map(data => data.size).sort((a, b) => a.localeCompare(b));
+  let sizeList = filteredSearchcode(filteredProducts, "size").map(data => String(data.size)).sort((a, b) => a.localeCompare(b)).filter(el => el != "undefined" && el != "null");
 
   // Handle Clearout Search
   function clearOutSearch() {
@@ -234,6 +234,7 @@ let nextNum = pageNum * 15;
     setPageNum(1)
     setFilterOpen(false)
     setSorting("")
+    setSize("")
     actions.router.set("/shop/")
     // getData()
   }
@@ -270,6 +271,13 @@ let nextNum = pageNum * 15;
       "list": brandList,
       "section": brandList
     },
+    {
+      "name": "size",
+      "hun": "Méret",
+      "icon": sizeLogo,
+      "list": sizeList,
+      "section": sizeList
+    },
   ];
 
   return (
@@ -295,23 +303,35 @@ let nextNum = pageNum * 15;
       </FilterHeader>
       {/* Cleancode */}
       {isFilterOpen?<FilterButton>
-        {sectionList.map((tag, index) => {
-          return (
-            <Section  
-              key={index} 
-              
-              selectionList={selectionList}
-              sorting={sorting} 
-              
-              tag={tag} 
-              index={index}
-
-              genders={genders}
-              
-              setPageNum={setPageNum} 
-              searchTerm={searchTerm} 
-              setSearchTerm={setSearchTerm} />
-          )}
+        {sectionList.map((tag, index, arr) => {
+          if(whichFilterIsOpen != "size") {
+            return (
+              <Section  
+                key={index} 
+                
+                selectionList={selectionList}
+                sorting={sorting} 
+                
+                tag={tag} 
+                index={index}
+  
+                genders={genders}
+                
+                setPageNum={setPageNum} 
+                searchTerm={searchTerm} 
+                setSearchTerm={setSearchTerm} />
+            )
+          } else return (
+              <SectionSize
+                tag={tag}
+                index={index} 
+                
+                size={size}
+                setSize={setSize} 
+                setPageNum={setPageNum}
+                 />
+            )
+          }
         )}
       </FilterButton>:null}
       <FilterSearch 

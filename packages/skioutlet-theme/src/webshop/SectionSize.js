@@ -2,52 +2,26 @@ import React from 'react'
 import { useEffect, useState } from 'react'
 import { connect, styled } from "frontity"
 
-const SectionSize = ( { sorting, actions, tag, index, sizeList, size, setSize, setPageNum, searchTerm , setSearchTerm } ) => {
+const SectionSize = ( { tag,size, setSize, setPageNum } ) => {
   
-  const [subIcon, setSubIcon] = useState([])
-  const [subIconColored, setSubIconColored] = useState([])
-  const [isVisible, setIsVisible] = useState("none");
   const [isSizeAdded, setIsSizeAdded] = useState(false)
-  console.log(size.split(" "));
-  let color = size.split(" ").includes(tag) ? "#ed2123" : "white";
-  let fontColor = size.split(" ").includes(tag) ? "white" : "black";
+
+  let color = size.includes(tag) ? "#ed2123" : "white";
+  let fontColor = size.includes(tag) ? "white" : "black";
 
   function handlePushSizeToArray(word) {
-    if(isSizeAdded === true) {
-      let newList = size.split(" ").filter((item) => item !== word);
-      console.log(newList);
-      setSize(newList.join(" "));
-    } else {
-      let sizeArray = size.split(" ").includes(word) ? size : size + " " + word;
-      setSize(sizeArray);
-    }
-    }  
-
-  function setSource() {
-    try{
-        const src = require(`../img/icons/${tag}.png`).default
-        setSubIcon({ src });
-    }
-    catch(err){
-        setSubIcon("")
-    }
+    !isSizeAdded ? setSize([...new Set([...size, word])]) : setSize(size.filter((item) => item !== word));
   }
-  
-  useEffect(() => {
-    setSource();
-  }, [])
 
   return (
     <SizeButton 
       title={tag} 
       style={{backgroundColor: `${color}`, color: `${fontColor}`}}
-      onMouseEnter={() => {setIsVisible("block")}}
-      onMouseLeave={() => {setIsVisible("none")}}
       onClick={() => {
         setPageNum(1);
         setIsSizeAdded(!isSizeAdded)
         handlePushSizeToArray(tag);
-        console.log(size);
+        
         // setSearchTerm(handlePushToArray(tag.toLowerCase()))
         // setSearchTerm(searchTerm.includes(" ") ? searchTerm.split(" ").some(r => {
         //   if(genders.includes(r))
@@ -69,11 +43,13 @@ const SizeButton = styled.s`
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 50px;
+    min-width: 50px;
+    width: fit-content;
+    padding: 0 5px;
     position: relative; 
     text-decoration: none;
     p {
-        margin: 0;
+        margin: 0 !important;
         font-weight: bold;
         padding: 5px 0;
     }
