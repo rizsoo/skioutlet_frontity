@@ -11,7 +11,7 @@ const Versenyek = ({ state, libraries, actions }) => {
   }, []);
 
   const res = Object.values(state.source.post);
-console.log(res);
+
   // const data = state.source.get("/");
   const Html2React = libraries.html2react.Component;
   
