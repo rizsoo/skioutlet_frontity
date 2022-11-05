@@ -31,6 +31,7 @@
     "chardet": "^1.4.0",
     "dayjs": "^1.11.5",
     "frontity": "^1.17.2",
+    "html-react-parser": "^3.0.4",
     "html2react": "^1.2.1",
     "iso-8859-2": "^3.0.4",
     "papaparse": "^5.3.2",

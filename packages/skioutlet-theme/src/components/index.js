@@ -37,6 +37,8 @@ const Root = ({ state }) => {
   }, [state.router.link])
 
   const url = data.link;
+  const location = state.router.link;
+  console.log(state.router.link);
 
   return (
     <>
@@ -70,7 +72,7 @@ const Root = ({ state }) => {
         <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
       </Head>
       <Header />
-      <Main isShopPage={isShopPage} isHomepage={isHomepage} postData={postData}>
+      <Main isShopPage={isShopPage} isHomepage={isHomepage} postData={postData} location={location}>
         <Switch>
           <Loading when={data.isFetching} />
           <Error when={data.isError} />
@@ -127,7 +129,7 @@ const Main = styled.main`
   }
   @media (max-width: 600px) {
     padding: 0 20px 20px 20px;
-    background-color: ${(props) => (props.isHomepage ? "#ed2123" : props.isShopPage ? "#f1f1f1" : "white")};
+    background-color: ${(props) => (props.isHomepage ? "#ed2123" : props.location.includes("shop") && !props.location.includes("termek") ? "#f1f1f1" : "white")};
   }
 `;
 
