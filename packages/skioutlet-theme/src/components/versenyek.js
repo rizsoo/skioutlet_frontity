@@ -22,13 +22,15 @@ const Versenyek = ({ state, libraries, actions }) => {
         {res.filter(el => el.categories.includes(954)).sort((a, b) => dayjs(a.date) > dayjs(b.date) ? -1 : 1).map((item) => {
           const post = state.source[item.type][item.id]
           return (
+            <Link key={item.id} link={post.link}>
               <CurrentRaceItem key={item.id}>
                   <FeaturedMedia id={post.featured_media} />
                   <VItemText>
-                  <Link key={item.id} link={post.link}><EventTitle><Html2React html={post.title.rendered} /></EventTitle></Link>
+                  <EventTitle><Html2React html={post.title.rendered} /></EventTitle>
                   <Html2React html={post.excerpt.rendered} />
                   </VItemText>                
               </CurrentRaceItem>
+            </Link>
           )
         })}
       </CurrentRace>
@@ -38,13 +40,15 @@ const Versenyek = ({ state, libraries, actions }) => {
         {res.filter(el => el.categories.includes(131) && !el.categories.includes(954)).sort((a, b) => dayjs(a.date) > dayjs(b.date) ? -1 : 1).map((item) => {
           const post = state.source[item.type][item.id]
           return (
-              <VItem key={item.id}>
+            <Link key={item.id} link={post.link}>
+              <VItem key={item.id}>    
                   <FeaturedMedia id={post.featured_media} />
                   <VItemText>
-                  <Link key={item.id} link={post.link}><EventTitle><Html2React html={post.title.rendered} /></EventTitle></Link>
+                  <EventTitle><Html2React html={post.title.rendered} /></EventTitle>
                   {/* <Html2React html={post.excerpt.rendered} /> */}
-                  </VItemText>                
+                  </VItemText>
               </VItem>
+            </Link>   
           )
         })}
       </VItems>
@@ -114,6 +118,7 @@ const VTitle = styled.h4`
 `
 const VItems = styled.div`
   display: flex;
+  flex-direction: row;
   flex-wrap: wrap;
   gap: 15px;
   max-width: 100rem;
@@ -126,6 +131,12 @@ const VItems = styled.div`
   }
   @media (max-width: 800px) {
     flex-direction: column;
+  }
+  a {
+    @media (min-width: 800px) {
+      height: 300px;
+      width: calc(100% / 4 - 12px);
+    }
   }
 `
 const VItem = styled.div`
@@ -157,7 +168,7 @@ const VItem = styled.div`
   }
   @media (min-width: 800px) {
     height: 300px;
-    width: calc(100% / 4 - 12px);
+    
   }
 `
 const VItemText = styled.div`

@@ -20,7 +20,7 @@ const Section = ( { actions, selectionList, sorting, tag, index, setPageNum, sea
   let season = winter.includes(tag) ? snow : autumn.includes(tag) ? wind : rainy.includes(tag) ? rain : null;
 
   function handlePushToArray(word) {
-    let wordNoSpace = word.includes(" ") ? word.split(" ").join("") : word;
+    // let wordNoSpace = word.includes(" ") ? word.split(" ").join("") : word;
     const searchArray = searchTerm.split(" ");
     let noCapitalCathegories = selectionList.map(el => el.toLocaleLowerCase());
     let noSpaceCathegories = noCapitalCathegories.map(el => !el.includes(" ") ? el : el.split(" ").join("-"));

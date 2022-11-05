@@ -184,11 +184,10 @@ let nextNum = pageNum * 15;
 
   function filterCat1ByCat2(searchWord) {
     let result = filteredSearchcode(mergedData, 'cat1').map(data => {
-      
       if(data.cat2 === searchWord && data.cat1 != undefined && data.cat2 != undefined) {
         return String(data.cat1).toLowerCase()
     }}).sort((a, b) => a.localeCompare(b));
-    return result.filter(el => el != undefined)
+    return result.filter(el => el != undefined && !el.includes("minta"))
   }
   
   const genders = ["férfi", "női", "gyerek", "unisex"]
