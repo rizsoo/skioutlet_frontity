@@ -12,7 +12,7 @@ const ProductsMosaik = ({ sorting, filteredProducts, nextNum, size }) => {
   }
   
   return (
-        <ProductsList>
+        <ProductsList id="termekek">
             {filteredProducts.length > 0 ? 
             renderSorting(sorting).filter((item, i) => 
             i >= nextNum - 15 & i < nextNum).map((prod, index) => 
@@ -21,7 +21,7 @@ const ProductsMosaik = ({ sorting, filteredProducts, nextNum, size }) => {
   )
 }
 
-const ProductsList = styled.div`
+const ProductsList = styled.section`
   max-width: 900px;
   display: flex;
   flex-wrap: wrap;

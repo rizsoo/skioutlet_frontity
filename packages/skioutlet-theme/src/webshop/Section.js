@@ -4,8 +4,9 @@ import { connect, styled } from "frontity"
 import wind from "../img/icons/wind.png"
 import snow from "../img/icons/snow.png"
 import rain from "../img/icons/rain.png"
+import { Link } from 'react-router-dom'
 
-const Section = ( { actions, selectionList, sorting, tag, index, setPageNum, searchTerm, setSearchTerm,whichFilterIsOpen } ) => {
+const Section = ( { actions, selectionList, sorting, tag, index, setPageNum, searchTerm, setSearchTerm, whichFilterIsOpen } ) => {
   
   const [isHighClass, setHighClass] = useState(false)
   const [subIcon, setSubIcon] = useState([])
@@ -79,6 +80,7 @@ const Section = ( { actions, selectionList, sorting, tag, index, setPageNum, sea
     </SubButton> :
     <BrandButton
       title={newTag} 
+      terms={searchTerm} 
       onClick={() => {
         setHighClass(!isHighClass); 
         setPageNum(1);
@@ -86,10 +88,10 @@ const Section = ( { actions, selectionList, sorting, tag, index, setPageNum, sea
         actions.router.set(`/shop/search/${sorting == undefined ? "" : `?orderby=${sorting}`}${sorting !== undefined ? "&" : "?"}s=${handlePushToArray(newTag).length > 0 ? handlePushToArray(newTag).split(" ").join("+") : handlePushToArray(newTag)}`)
     }}>
         <img  
-          key={index}
-          src={subIcon.src}
-          alt={""}
-        />
+            key={index}
+            src={subIcon.src}
+            alt={""}
+          />
     </BrandButton>
   )
 }
@@ -116,21 +118,27 @@ const BrandButton = styled.s`
     cursor: pointer;
     width: calc(900px / 7 - 12px);
     height: 40px;
-      
+    @media (max-width: 600px) {
+      height: 30px;
+      width: calc(100% / 3 - 7px) 
+    }
+    background-color: ${props => props.terms.includes(props.title) ? "#f1f1f1" : "inherit"};
+
+    border-radius: 5px;
     position: relative; 
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 2px;
-
+    
     img {
       height: 100%;
       max-width: max-content;
     }
 
     :hover {
-      transform: scale(1.01);
-      transition: ease 0.1s;
+      transform: scale(0.95);
+      transition: ease 0.15s;
     }
 `
 const Icon = styled.img`
