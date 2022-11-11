@@ -5,7 +5,7 @@ import wind from "../img/icons/wind.png"
 import snow from "../img/icons/snow.png"
 import rain from "../img/icons/rain.png"
 
-const Section = ( { actions, selectionList, sorting, tag, index, setPageNum, searchTerm, setSearchTerm } ) => {
+const Section = ( { actions, selectionList, sorting, tag, index, setPageNum, searchTerm, setSearchTerm,whichFilterIsOpen } ) => {
   
   const [isHighClass, setHighClass] = useState(false)
   const [subIcon, setSubIcon] = useState([])
@@ -54,6 +54,7 @@ const Section = ( { actions, selectionList, sorting, tag, index, setPageNum, sea
   }, [selectionList])
 
   return (
+    whichFilterIsOpen != "brand" ? 
     <SubButton 
       title={newTag} 
       onMouseEnter={() => {setIsVisible("block")}}
@@ -75,7 +76,21 @@ const Section = ( { actions, selectionList, sorting, tag, index, setPageNum, sea
           src={subIconColored.src}
           alt={""}
         />
-    </SubButton>
+    </SubButton> :
+    <BrandButton
+      title={newTag} 
+      onClick={() => {
+        setHighClass(!isHighClass); 
+        setPageNum(1);
+        setSearchTerm(handlePushToArray(newTag))
+        actions.router.set(`/shop/search/${sorting == undefined ? "" : `?orderby=${sorting}`}${sorting !== undefined ? "&" : "?"}s=${handlePushToArray(newTag).length > 0 ? handlePushToArray(newTag).split(" ").join("+") : handlePushToArray(newTag)}`)
+    }}>
+        <img  
+          key={index}
+          src={subIcon.src}
+          alt={""}
+        />
+    </BrandButton>
   )
 }
 
@@ -90,11 +105,31 @@ const SubButton = styled.s`
     width: 50px;
     height: 50px;    
     position: relative; 
-    img {
-      
-    }
+
     :hover {
       transform: scale(1.08);
+      transition: ease 0.1s;
+    }
+`
+const BrandButton = styled.s`
+    font-size: 22px;
+    cursor: pointer;
+    width: calc(900px / 7 - 12px);
+    height: 40px;
+      
+    position: relative; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 2px;
+
+    img {
+      height: 100%;
+      max-width: max-content;
+    }
+
+    :hover {
+      transform: scale(1.01);
       transition: ease 0.1s;
     }
 `

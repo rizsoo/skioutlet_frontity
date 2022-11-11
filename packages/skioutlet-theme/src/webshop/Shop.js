@@ -314,6 +314,7 @@ let nextNum = pageNum * 15;
       {/* Cleancode */}
       {isFilterOpen?<FilterButton>
         {sectionList.map((tag, index, arr) => {
+          console.log(whichFilterIsOpen);
           if(whichFilterIsOpen != "size") {
             return (
               <Section  
@@ -326,6 +327,7 @@ let nextNum = pageNum * 15;
                 index={index}
   
                 genders={genders}
+                whichFilterIsOpen={whichFilterIsOpen}
                 
                 setPageNum={setPageNum} 
                 searchTerm={searchTerm} 
