@@ -195,22 +195,25 @@ let nextNum = pageNum * 15;
   // Get each word
     let allCathegory = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat"), ...brandList]
 
-    function filterIt(terms, a, size) {
-      let words = terms.split(" ");
+    function filterIt(terms, prod, size) {
+      let words = terms.normalize("NFD").replace(/[\u0300-\u036f]/g, "").split(" ");
       words = words.map(val => !val.includes("-") ? val.replace(/\"/g, "") : val.split("-").join(" ").replace(/\"/g, ""));
-        const v = Object.values(a);
+        const v = Object.values(prod);
+        // console.log(v)
+        const brandName = prod.brand ? prod.brand.toLowerCase() : "";
 
-        const brandName = a.brand ? a.brand.toLowerCase() : "";
-
-        const catName = a.cat1 ? a.cat1.toLowerCase() : "";
+        // Is it a cathergory name?
+        const catName = prod.cat1 ? prod.cat1.toLowerCase() : "";
         let catNames = [brandName, catName];
         let isCat = words.some(el => allCathegory.includes(el)) ? words.some(el => catNames.some(cat => cat === el)) : true;
 
-        const sizeOfProduct = String(a.size)
+        // Does it have a size?
+        const sizeOfProduct = String(prod.size)
         let isSize = size != "" ? size.some(el => el === sizeOfProduct) : true;
 
         const f = JSON.stringify(v).toLowerCase();
-        let result = words.every(val => f.includes(val) && isCat && isSize)
+        // console.log(f);
+        let result = words.every(val => f.normalize("NFD").replace(/[\u0300-\u036f]/g, "").includes(val) && isCat && isSize)
           return result;
     };
 
@@ -225,9 +228,9 @@ let nextNum = pageNum * 15;
 // Filtermenu Cat
   let filterDataCathegory = [...filterCat1ByCat2("Felszerelés"), ...filterCat1ByCat2("Ruházat")]
 
-  const filteredProducts = mergedData.filter(val => {
-    if (searchTerm === "" || filterIt(searchTerm, val, size)) {
-      return val
+  const filteredProducts = mergedData.filter(prod => {
+    if (searchTerm === "" || filterIt(searchTerm, prod, size)) {
+      return prod
     } 
   });
 
