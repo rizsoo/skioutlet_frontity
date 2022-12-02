@@ -298,8 +298,9 @@ let nextNum = pageNum * 15;
         </FilterBar>
         <FilterBar>
           {filterButtons.map((el, index) => {
+            console.log(el);
             return (
-              <SectionButton key={index} onClick={() => {
+              <SectionButton title={el.hun} key={index} onClick={() => {
                   setSectionList(el.list); 
                   setWhichFilterIsOpen(el.name); 
                   setSelectionList(el.section); 
@@ -449,7 +450,7 @@ const SectionButton = styled.s`
         height: 36px;
       }
     }
-    position: realtive;   
+    position: realtive;
 `
 const FilterButton = styled.div`
     display: flex;
