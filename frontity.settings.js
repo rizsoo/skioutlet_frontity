@@ -15,7 +15,7 @@ const settings = {
       "name": "@frontity/wp-source",
       "state": {
         "source": {
-          "url": "https://wp.elevenhungary.hu/",
+          "url": "https://wordpress.skioutlet.hu/cms/",
           "postTypes": [
             {
               type: "shop",
