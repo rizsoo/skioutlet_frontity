@@ -17,11 +17,10 @@ const Slideshow = ({ state, libraries, data }) => {
       return () => clearTimeout(timer);
     }, [current]);
     // setTimeout(() => {setCurrent(current < lengthN - 1 ? current + 1 : 0)}, 5000);
-    console.log(current);
-
+    
   return (
     <Actions>
-        {data.items.filter(el => state.source[el.type][el.id].categories[0] === 137).map((item, index, arr) => {
+        {data.items.filter(el => state.source[el.type][el.id].categories[0] === 5).map((item, index, arr) => {
             const post = state.source[item.type][item.id];
             return(
                 <Link key={item.id} link={post.link} style={{height: index === current ? "250px" : "0"}}>

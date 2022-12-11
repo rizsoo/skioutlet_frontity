@@ -19,7 +19,7 @@ const Versenyek = ({ state, libraries, actions }) => {
     <>
       <VTitle>Következő verseny</VTitle>
       <CurrentRace>
-        {res.filter(el => el.categories.includes(954)).sort((a, b) => dayjs(a.date) > dayjs(b.date) ? -1 : 1).map((item) => {
+        {res.filter(el => el.categories.includes(4)).sort((a, b) => dayjs(a.date) > dayjs(b.date) ? -1 : 1).map((item) => {
           const post = state.source[item.type][item.id]
           return (
             <Link key={item.id} link={post.link}>
@@ -37,7 +37,7 @@ const Versenyek = ({ state, libraries, actions }) => {
         <hr></hr>
       <VTitle>Eddigi versenyeink</VTitle>
       <VItems>
-        {res.filter(el => el.categories.includes(131) && !el.categories.includes(954)).sort((a, b) => dayjs(a.date) > dayjs(b.date) ? -1 : 1).map((item) => {
+        {res.filter(el => el.categories.includes(3) && !el.categories.includes(4)).sort((a, b) => dayjs(a.date) > dayjs(b.date) ? -1 : 1).map((item) => {
           const post = state.source[item.type][item.id]
           return (
             <Link key={item.id} link={post.link}>

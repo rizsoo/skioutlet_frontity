@@ -30,7 +30,7 @@ const List = ({ state, libraries }) => {
     </Actions> */}
     <Title>Hírek</Title>
     <NewsItem>
-      {data.items.filter(el => state.source[el.type][el.id].categories[0] === 952).slice(0, 3).map((item) => {
+      {data.items.filter(el => state.source[el.type][el.id].categories[0] === 6).slice(0, 3).map((item) => {
         const post = state.source[item.type][item.id]
         const formattedDate = dayjs(post.date).format("YYYY.MM.DD.")
         return (
