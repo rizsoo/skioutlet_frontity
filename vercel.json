@@ -1,9 +1,9 @@
 {
     "version": 2,
     "functions": {
-      "api/test.js": {
-        "maxDuration": 60
-      }
+        "api/test.js": {
+          "maxDuration": 10
+        }
     },
     "builds": [
       {
