@@ -5,5 +5,10 @@
         "src": "package.json",
         "use": "@frontity/now"
       }
-    ]
+    ],
+    "functions": {
+      "api/test.js": {
+        "maxDuration": 10
+      }
+    }
   }
