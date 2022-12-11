@@ -33,14 +33,14 @@ const settings = {
         "products": [],
       }
     },
-    // {
-    //   name: "@frontity/google-analytics",
-    //     state: {
-    //       googleAnalytics: {
-    //       trackingId: "G-5X9RQ169S6",
-    //       },
-    //     },
-    // }, 
+    {
+      name: "@frontity/google-analytics",
+        state: {
+          googleAnalytics: {
+          trackingId: "G-5X9RQ169S6",
+          },
+        },
+    }, 
     "@frontity/tiny-router",
     "@frontity/html2react"
   ]

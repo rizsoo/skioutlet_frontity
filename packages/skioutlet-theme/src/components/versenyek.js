@@ -177,7 +177,6 @@ const VItemText = styled.div`
   padding-right: 20px;
   display: flex;
   flex-direction: column;
-  align-items: center;
   justify-content: center;
   
   gap: 10px;
