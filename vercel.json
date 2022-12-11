@@ -1,14 +1,14 @@
 {
     "version": 2,
+    "functions": {
+      "api/test.js": {
+        "maxDuration": 60
+      }
+    },
     "builds": [
       {
         "src": "package.json",
         "use": "@frontity/now"
       }
-    ],
-    "functions": {
-      "api/test.js": {
-        "maxDuration": 10
-      }
-    }
+    ]
   }
