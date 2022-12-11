@@ -298,7 +298,7 @@ let nextNum = pageNum * 15;
         </FilterBar>
         <FilterBar>
           {filterButtons.map((el, index) => {
-            console.log(el);
+            // console.log(el);
             return (
               <SectionButton title={el.hun} key={index} onClick={() => {
                   setSectionList(el.list); 
@@ -315,7 +315,7 @@ let nextNum = pageNum * 15;
       {/* Cleancode */}
       {isFilterOpen?<FilterButton>
         {sectionList.map((tag, index, arr) => {
-          console.log(whichFilterIsOpen);
+          // console.log(whichFilterIsOpen);
           if(whichFilterIsOpen != "size") {
             return (
               <Section  

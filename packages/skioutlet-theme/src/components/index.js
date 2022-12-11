@@ -38,7 +38,7 @@ const Root = ({ state }) => {
 
   const url = data.link;
   const location = state.router.link;
-  console.log(state.router.link);
+  // console.log(state.router.link);
 
   return (
     <>
