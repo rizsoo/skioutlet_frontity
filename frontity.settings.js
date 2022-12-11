@@ -40,7 +40,7 @@ const settings = {
     //       trackingId: "G-5X9RQ169S6",
     //       },
     //     },
-    // },
+    // }, 
     "@frontity/tiny-router",
     "@frontity/html2react"
   ]

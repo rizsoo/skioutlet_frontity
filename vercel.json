@@ -1,10 +1,5 @@
 {
     "version": 2,
-    "functions": {
-        "api/test.js": {
-          "maxDuration": 10
-        }
-    },
     "builds": [
       {
         "src": "package.json",
