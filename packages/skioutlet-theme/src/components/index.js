@@ -99,6 +99,7 @@ const Main = styled.main`
   
   img {
     max-width: 100%;
+    height: auto;
   }
   h2 {
     margin: 0.5em 0;
