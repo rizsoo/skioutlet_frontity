@@ -108,7 +108,7 @@ const SubButton = styled.s`
     height: 50px;    
     position: relative; 
     img {
-      padding: 5px;
+      padding: 8px;
     }
 
     :hover {
