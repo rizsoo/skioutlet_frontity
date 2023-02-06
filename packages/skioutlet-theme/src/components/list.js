@@ -136,10 +136,12 @@ const NewsItem = styled.div`
     background-color: white;
     h3 {
       margin-bottom: 5px;
-      font-size: 1.3em;
+      font-size: 1.2em;
+      line-height: 1.2;
     }
     p {
       font-size: 0.9em;
+      word-break: break-word;
     }
     i {
       font-size: 10px;
@@ -148,7 +150,7 @@ const NewsItem = styled.div`
     @media (min-width: 600px) {
       img {
         object-fit: cover;
-        height: 45%;
+        height: 50%;
       }
     }
     @media (max-width: 600px) {
