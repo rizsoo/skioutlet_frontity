@@ -134,6 +134,7 @@ const NewsItem = styled.div`
     color: black;
     width: calc((100% - 20px) / 3);
     background-color: white;
+    position: relative;
     h3 {
       margin-bottom: 5px;
       font-size: 1.2em;
@@ -142,10 +143,14 @@ const NewsItem = styled.div`
     p {
       font-size: 0.9em;
       word-break: break-word;
+      line-height: 1.2;
+      margin-bottom: 30px;
     }
     i {
       font-size: 10px;
       color: grey;
+      position: absolute;
+      bottom: 0;
     }
     @media (min-width: 600px) {
       img {
