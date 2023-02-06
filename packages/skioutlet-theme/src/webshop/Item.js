@@ -45,7 +45,7 @@ const Item = ({ state, prod, size }) => {
         id: prodImg
       })}>
         <ItemContent>
-          {loaded ? <img className='productwall-img' src={imgData.src} alt={prodImg} onLoad={() => setLoaded(true)} /> : <Loading />}
+          <img className='productwall-img' style={{ display: loaded ? "block" : "none" }} src={imgData.src} alt={prodImg} onLoad={() => setLoaded(true)} />
           <h2 className='product-title'>{prodTitle}</h2>
           {/* <p>{prod.img}</p> */}
           <ItemPrice>
