@@ -150,7 +150,7 @@ const NewsItem = styled.div`
       font-size: 10px;
       color: grey;
       position: absolute;
-      bottom: 0;
+      bottom: 10px;
     }
     @media (min-width: 600px) {
       img {
