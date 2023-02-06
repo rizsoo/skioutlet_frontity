@@ -2,7 +2,8 @@ import React from 'react'
 import { generatePath } from 'react-router-dom';
 import Link from "@frontity/components/link"
 import { useState, useEffect } from 'react';
-import { connect, styled } from "frontity"
+import { connect, styled } from "frontity";
+import Loading from '../components/loading';
 
 function currencyConverter(number) {
   let priceSep = String(number).split("");
@@ -19,38 +20,40 @@ const Item = ({ state, prod, size }) => {
   let imgFolderName = prodBrand.toLowerCase();
   let prodImg = String(prod.img);
   // Get image
-const [imgData, setImgData] = useState([])
-function setSource() {
-  try{
+  const [imgData, setImgData] = useState([])
+  const [loaded, setLoaded] = useState(false)
+
+  function setSource() {
+    try {
       const src = `https://img.skioutlet.hu/product_images/${imgFolderName}/${prodImg}.jpg`
       setImgData({ src });
-  }
-  catch(err){
+    }
+    catch (err) {
       setImgData("")
+    }
   }
-}
 
 
-useEffect(() => {
-  setSource();
-}, [info, size])
+  useEffect(() => {
+    setSource();
+  }, [info, size])
 
 
   return (
     <ItemFrame>
-        <Link link={generatePath("/shop/termek/:id", {
-            id: prodImg
-          })}>
+      <Link link={generatePath("/shop/termek/:id", {
+        id: prodImg
+      })}>
         <ItemContent>
-            <img className='productwall-img' src={imgData.src} alt={prodImg} />
-            <h2 className='product-title'>{prodTitle}</h2>
-            {/* <p>{prod.img}</p> */}
-            <ItemPrice>
-                {prod.saleprice === prod.price ? null : <h2><SalePrice>{currencyConverter(prod.price)}</SalePrice></h2>}
-                <h2>{currencyConverter(prod.saleprice)}</h2>
-            </ItemPrice>
+          {loaded ? <img className='productwall-img' src={imgData.src} alt={prodImg} onLoad={() => setLoaded(true)} /> : <Loading />}
+          <h2 className='product-title'>{prodTitle}</h2>
+          {/* <p>{prod.img}</p> */}
+          <ItemPrice>
+            {prod.saleprice === prod.price ? null : <h2><SalePrice>{currencyConverter(prod.price)}</SalePrice></h2>}
+            <h2>{currencyConverter(prod.saleprice)}</h2>
+          </ItemPrice>
         </ItemContent>
-        </Link>
+      </Link>
     </ItemFrame>
   )
 }
@@ -69,7 +72,7 @@ const ItemFrame = styled.div`
   }
 `;
 
-const ItemContent =styled.div`
+const ItemContent = styled.div`
   height: 100%;
 
   display: flex;
