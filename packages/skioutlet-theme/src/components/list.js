@@ -8,13 +8,13 @@ import Slideshow from './slideshow'
 
 const List = ({ state, libraries }) => {
   const data = state.source.get(state.router.link)
-  
+
   const Html2React = libraries.html2react.Component;
 
   return (
     <>
-    <Slideshow data={data} />
-    {/* <Actions>
+      <Slideshow data={data} />
+      {/* <Actions>
     {data.items.filter(el => state.source[el.type][el.id].categories[0] === 137).map((item, index, arr) => {
       const post = state.source[item.type][item.id];
       return (
@@ -28,23 +28,23 @@ const List = ({ state, libraries }) => {
       )
     })}
     </Actions> */}
-    <Title>Hírek</Title>
-    <NewsItem>
-      {data.items.filter(el => state.source[el.type][el.id].categories[0] === 6).slice(0, 3).map((item) => {
-        const post = state.source[item.type][item.id]
-        const formattedDate = dayjs(post.date).format("YYYY.MM.DD.")
-        return (
-          <Link key={item.id} link={post.link} >
-            <FeaturedMedia id={post.featured_media} />
-            <PostText>
-              <h3><Html2React html={post.title.rendered} /></h3>
-              <p><Html2React html={post.excerpt.rendered} /></p>
-              <i>Posted <Html2React html={formattedDate} /></i>
-            </PostText>
-          </Link>
-        )
-      })}
-    </NewsItem>
+      <Title>Hírek</Title>
+      <NewsItem>
+        {data.items.filter(el => state.source[el.type][el.id].categories[0] === 6).slice(0, 3).map((item) => {
+          const post = state.source[item.type][item.id]
+          const formattedDate = dayjs(post.date).format("YYYY.MM.DD.")
+          return (
+            <Link key={item.id} link={post.link} >
+              <FeaturedMedia id={post.featured_media} />
+              <PostText>
+                <h3><Html2React html={post.title.rendered} /></h3>
+                <p><Html2React html={post.excerpt.rendered} /></p>
+                <i>Posted <Html2React html={formattedDate} /></i>
+              </PostText>
+            </Link>
+          )
+        })}
+      </NewsItem>
     </>
   )
 }
@@ -55,7 +55,7 @@ const List = ({ state, libraries }) => {
 //     display: flex;
 //     gap: 10px;
 //     flex-wrap: wrap;
-    
+
 //   & > a {
 //     display: block;
 //     font-size: 1.2em;
@@ -144,6 +144,12 @@ const NewsItem = styled.div`
     i {
       font-size: 10px;
       color: grey;
+    }
+    @media (min-width: 600px) {
+      img {
+        object-fit: cover;
+        height: 45%;
+      }
     }
     @media (max-width: 600px) {
       width: 100%;
