@@ -32,6 +32,7 @@
     "html2react": "^1.2.1",
     "papaparse": "^5.3.2",
     "react-device-detect": "^2.2.2",
-    "skioutlet-theme": "file:packages/skioutlet-theme"
+    "skioutlet-theme": "file:packages/skioutlet-theme",
+    "yarn": "^1.22.19"
   }
 }
