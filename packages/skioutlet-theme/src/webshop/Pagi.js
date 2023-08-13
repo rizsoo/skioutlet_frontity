@@ -1,7 +1,5 @@
 import React from 'react'
-import { generatePath } from 'react-router-dom';
 import Link from "@frontity/components/link"
-import { useState } from 'react'
 
 import { connect, styled } from "frontity";
 

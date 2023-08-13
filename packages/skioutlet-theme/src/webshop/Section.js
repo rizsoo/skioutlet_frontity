@@ -4,7 +4,6 @@ import { connect, styled } from "frontity"
 import wind from "../img/icons/wind.png"
 import snow from "../img/icons/snow.png"
 import rain from "../img/icons/rain.png"
-import { Link } from 'react-router-dom'
 
 const Section = ( { actions, selectionList, sorting, tag, index, setPageNum, searchTerm, setSearchTerm, whichFilterIsOpen } ) => {
   

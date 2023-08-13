@@ -1,5 +1,4 @@
 import FilterWord from "./FilterWord";
-import { Link, generatePath } from "react-router-dom";
 import { connect, styled } from "frontity"
 
 function FilterSearch( { state, searchTerm, setSearchTerm, brandList } ) {

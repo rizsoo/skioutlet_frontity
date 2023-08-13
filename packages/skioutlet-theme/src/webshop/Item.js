@@ -3,7 +3,6 @@ import { generatePath } from 'react-router-dom';
 import Link from "@frontity/components/link"
 import { useState, useEffect } from 'react';
 import { connect, styled } from "frontity";
-import Loading from '../components/loading';
 
 function currencyConverter(number) {
   let priceSep = String(number).split("");
