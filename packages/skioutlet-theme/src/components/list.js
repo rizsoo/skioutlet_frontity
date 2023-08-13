@@ -28,7 +28,8 @@ const List = ({ state, libraries }) => {
       )
     })}
     </Actions> */}
-      <Title>Hírek</Title>
+      <h1>Oldalunk fejlesztés alatt! A <Link style={{color: "red"}} link="shop">termékeket</Link> addig is elérhetőek és naprakészek. </h1>
+      <p>NYITÁS: AUGUSZTUS 30. SZEPTEMBERI NYITVATARTÁSUNK: SZERDA ÉS CSÜTÖRTÖK 11 – 18 ÓRA. </p>
       <NewsItem>
         {data.items.filter(el => state.source[el.type][el.id].categories[0] === 6).slice(0, 3).map((item) => {
           const post = state.source[item.type][item.id]
