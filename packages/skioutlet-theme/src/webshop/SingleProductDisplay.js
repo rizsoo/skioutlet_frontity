@@ -1,6 +1,5 @@
 import React from 'react'
 import { useState, useEffect } from 'react';
-import { matchPath } from 'react-router-dom';
 import { connect, styled, Head } from "frontity"
 import Link from "@frontity/components/link"
 
